@@ -73,6 +73,10 @@ public class DependencyInjection {
         return url_api;
     }
 
+    public static void setContext(Context context) {
+        DependencyInjection.context = context;
+    }
+
     public static Retrofit getRetrofit() {
         if (retrofit == null) {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -84,7 +88,7 @@ public class DependencyInjection {
                     .build();
 
             retrofit = new Retrofit.Builder()
-                    .baseUrl("https://api.rawg.io/api")
+                    .baseUrl("https://api.rawg.io/api/")
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(client)
                     .addConverterFactory(GsonConverterFactory.create(getGson()))
