@@ -1,5 +1,6 @@
 package com.example.rawg_youtube_monitor.data.service;
 
+import com.example.rawg_youtube_monitor.data.model.Game;
 import com.example.rawg_youtube_monitor.data.model.SearchGamesResponse;
 
 import io.reactivex.Single;
@@ -10,4 +11,9 @@ public interface SearchGamesDisplayService {
 
     @GET("games?search={name}&page_size={pageSize}&page={page}")
     Single<SearchGamesResponse> searchGamesByName(@Path("name") String name, @Path("pageSize") int pageSize, @Path("page") int page);
+
+    @GET("games/{id}")
+    Single<Game> getGameById(@Path("id") String id);
+
+
 }

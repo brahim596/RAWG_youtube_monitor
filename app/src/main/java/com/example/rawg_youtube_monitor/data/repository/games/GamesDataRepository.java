@@ -9,6 +9,8 @@ import com.example.rawg_youtube_monitor.data.repository.games.remote.GamesRemote
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Completable;
+import io.reactivex.Flowable;
 import io.reactivex.Single;
 
 public class GamesDataRepository implements GamesRepository {
@@ -18,11 +20,30 @@ public class GamesDataRepository implements GamesRepository {
 
     public GamesDataRepository(GamesRemoteDataSource gamesRemoteDataSource, GamesLocalDataSource gamesLocalDataSource) {
         this.gamesRemoteDataSource = gamesRemoteDataSource;
+        this.gamesLocalDataSource = gamesLocalDataSource;
     }
 
     @Override
     public Single<SearchGamesResponse> searchGamesByName(String name, int pageSize, int page) {
         return this.gamesRemoteDataSource.searchGameByName(name, pageSize, page);
+    }
+
+    @Override
+    public Single<Game> getGameById(String id) {
+        return this.gamesRemoteDataSource.getGameById(id);
+    }
+
+    public Flowable<List<GameEntity>> getAllFavoritesGames(){
+        return this.gamesLocalDataSource.getAllFavGames();
+    }
+
+    public Completable addGameToFavoritesById(String id){
+        //TODO SETUP CALL TO GET GAME BY ID
+        return null;
+    }
+
+    public Completable removeGameFromFavoritesById(String id){
+        return this.gamesLocalDataSource.deleteGameById(id);
     }
 
 

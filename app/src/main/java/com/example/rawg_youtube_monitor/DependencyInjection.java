@@ -7,6 +7,7 @@ import androidx.room.Room;
 import com.example.rawg_youtube_monitor.data.db.GameDatabase;
 import com.example.rawg_youtube_monitor.data.repository.games.GamesDataRepository;
 import com.example.rawg_youtube_monitor.data.repository.games.GamesRepository;
+import com.example.rawg_youtube_monitor.data.repository.games.local.GamesLocalDataSource;
 import com.example.rawg_youtube_monitor.data.repository.games.remote.GamesRemoteDataSource;
 import com.example.rawg_youtube_monitor.data.repository.youtubeVideo.YoutubeVideoDataRepository;
 import com.example.rawg_youtube_monitor.data.repository.youtubeVideo.YoutubeVideoRepository;
@@ -40,7 +41,7 @@ public class DependencyInjection {
 
     public static GamesRepository getGamesRepository() {
         if (gamesRepository == null)
-            gamesRepository = new GamesDataRepository(new GamesRemoteDataSource(getSearchGamesDisplayService()));
+            gamesRepository = new GamesDataRepository(new GamesRemoteDataSource(getSearchGamesDisplayService()),new GamesLocalDataSource(getGameDatabase()));
         return gamesRepository;
     }
 
