@@ -16,7 +16,9 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.example.rawg_youtube_monitor.MainActivity;
 import com.example.rawg_youtube_monitor.R;
+import com.example.rawg_youtube_monitor.presentation.favGamesCollectionDisplay.fragment.FavGamesCollectionFragment;
 import com.example.rawg_youtube_monitor.presentation.favGamesVideoDisplay.fragment.FavGamesVideoFragment;
+import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.fragment.SearchGamesFragment;
 
 public class MainPageAdapter extends FragmentPagerAdapter {
 
@@ -29,7 +31,17 @@ public class MainPageAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        return FavGamesVideoFragment.newInstance();
+
+        switch (position) {
+            case 0:
+               return FavGamesVideoFragment.newInstance();
+            case 1:
+               return FavGamesCollectionFragment.newInstance();
+            case 2:
+               return SearchGamesFragment.newInstance();
+            default: return FavGamesCollectionFragment.newInstance();
+        }
+
     }
 
 
