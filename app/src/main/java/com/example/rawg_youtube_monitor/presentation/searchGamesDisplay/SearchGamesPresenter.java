@@ -66,9 +66,7 @@ public class SearchGamesPresenter {
     }
 
     private GameItemViewModel mapGameToGameItemViewModel(Game game){
-
-
-        return new GameItemViewModel(game.getId(),game.getName(),""+game.getRating(),game.getBackground_image(),extractPlatformsNameFromGame(game));
+        return new GameItemViewModel(game.getId(),game.getName(),""+game.getRating(),game.getBackground_image(),extractPlatformsNameFromGame(game),game.getRatings_count());
     }
 
     private List<String> extractPlatformsNameFromGame(Game game){

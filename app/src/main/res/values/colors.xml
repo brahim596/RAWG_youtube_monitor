@@ -3,4 +3,7 @@
     <color name="colorPrimary">#202020</color>
     <color name="colorPrimaryDark">#151515</color>
     <color name="colorAccent">#F6F6F6</color>
+    <color name="highScore">#45AF49</color>
+    <color name="mediumScore">#FFEB3B</color>
+    <color name="lowScore">#B32121</color>
 </resources>

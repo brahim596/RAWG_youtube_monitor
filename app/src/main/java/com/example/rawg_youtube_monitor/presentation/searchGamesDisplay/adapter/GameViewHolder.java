@@ -24,6 +24,7 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
     TextView gameTitle;
     TextView gameRate;
     TextView gameRateScore;
+    TextView ratingCounts;
     ImageView gameImage;
     GameItemViewModel gameItemViewModel;
     LinearLayout iconPlatformLayout;
@@ -39,6 +40,7 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
         gameRate = view.findViewById(R.id.gameRate);
         gameRateScore = view.findViewById(R.id.gameRateScore);
         gameImage = view.findViewById(R.id.gameImage);
+        ratingCounts = view.findViewById(R.id.ratingCount);
         iconPlatformLayout = view.findViewById(R.id.platforms_icon_layout);
         initIconsAvaible();
     }
@@ -47,7 +49,14 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
         this.gameItemViewModel = gameItemViewModel;
         gameTitle.setText(gameItemViewModel.getGameTitle());
         gameRate.setText(gameItemViewModel.getGameRate());
-        gameRateScore.setText((int)(Double.parseDouble(gameItemViewModel.getGameRate())*20)+"");
+        if (gameItemViewModel.getRatings_count() == 0) {
+            gameRateScore.setText("NC");
+            ratingCounts.setText("( 0 avis )");
+        } else {
+            gameRateScore.setText((int) (Double.parseDouble(gameItemViewModel.getGameRate()) * 20) + "");
+            ratingCounts.setText("("+gameItemViewModel.getRatings_count()+" avis )");
+        }
+        setUpGameScoreColor();
         Glide.with(view).load(this.gameItemViewModel.gameImageUrl).fitCenter().transition(DrawableTransitionOptions.withCrossFade(100)).into(this.gameImage);
         bindPlatformIcons();
     }
@@ -81,5 +90,12 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
         iconsAvailble.put("pc", R.drawable.ic_pc);
         iconsAvailble.put("playstation", R.drawable.ic_playstation);
         iconsAvailble.put("xbox", R.drawable.ic_xbox);
+    }
+
+    private void setUpGameScoreColor(){
+        if(gameItemViewModel.getRatings_count()==0)gameRateScore.setTextColor(view.getResources().getColor(R.color.colorAccent));
+        else if(Double.parseDouble(gameItemViewModel.gameRate)*20 > 72)gameRateScore.setTextColor(view.getResources().getColor(R.color.highScore));
+        else if(Double.parseDouble(gameItemViewModel.gameRate)*20 > 50)gameRateScore.setTextColor(view.getResources().getColor(R.color.mediumScore));
+        else gameRateScore.setTextColor(view.getResources().getColor(R.color.lowScore));
     }
 }
