@@ -11,7 +11,7 @@ import retrofit2.http.Query;
 public interface SearchGamesDisplayService {
 
     @GET("games")
-    Single<SearchGamesResponse> searchGamesByName(@Query("name") String name, @Query("page_size") int pageSize, @Query("page") int page);
+    Single<SearchGamesResponse> searchGamesByName(@Query("search") String name, @Query("page_size") int pageSize, @Query("page") int page);
 
     @GET("games/{id}")
     Single<Game> getGameById(@Path("id") String id);

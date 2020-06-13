@@ -3,10 +3,13 @@ package com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.fragmen
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +25,8 @@ import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.adapter.
 import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.adapter.SearchGameAdapter;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SearchGamesFragment extends Fragment implements SearchGamesViewContract {
 
@@ -31,6 +36,9 @@ public class SearchGamesFragment extends Fragment implements SearchGamesViewCont
 
     private SearchGameAdapter searchGameAdapter;
     private SearchGamesPresenter searchGamesPresenter;
+
+    private Timer timer=new Timer();
+    private final long DELAY = 1000;
 
     public SearchGamesFragment() {}
 
@@ -72,10 +80,23 @@ public class SearchGamesFragment extends Fragment implements SearchGamesViewCont
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-                searchGamesPresenter.getGamesByName(s.toString());
+            public void afterTextChanged(final Editable s) {
+
+                timer.cancel();
+                timer = new Timer();
+                timer.schedule(
+                        new TimerTask() {
+                            @Override
+                            public void run() {
+                                searchGamesPresenter.getGamesByName(s.toString());
+                            }
+                        },
+                        DELAY
+                );
+
             }
         });
+
     }
 
     @Override
