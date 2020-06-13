@@ -1,4 +1,4 @@
-package com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.adapter;
+package com.example.rawg_youtube_monitor.presentation.favGamesVideoDisplay.adapter;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -7,26 +7,26 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rawg_youtube_monitor.R;
-import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.SearchGamesViewContract;
+import com.example.rawg_youtube_monitor.presentation.favGamesVideoDisplay.fragment.FavGamesViewContract;
+import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.adapter.GameItemViewModel;
+import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.adapter.GameViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchGameAdapter extends RecyclerView.Adapter<GameViewHolder> {
+public class FavGameAdapter extends RecyclerView.Adapter<GameViewHolder> {
 
     List<GameItemViewModel> gameItemViewModels;
-    SearchGamesViewContract searchGamesViewContract;
+    FavGamesViewContract favGamesViewContract;
 
-
-    public SearchGameAdapter(SearchGamesViewContract searchGamesViewContract) {
-        gameItemViewModels = new ArrayList<>();
-        this.searchGamesViewContract = searchGamesViewContract;
+    public FavGameAdapter() {
+        this.gameItemViewModels = new ArrayList<>();
     }
 
     @NonNull
     @Override
-    public SearchGameViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new SearchGameViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.game_card, parent, false),searchGamesViewContract);
+    public GameViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new FavGameViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.game_card, parent, false),favGamesViewContract);
     }
 
     @Override

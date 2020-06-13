@@ -1,10 +1,8 @@
 package com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.adapter;
 
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.example.rawg_youtube_monitor.R;
-import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.SearchGamesViewContract;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,15 +18,13 @@ import java.util.Map;
 
 public class GameViewHolder extends RecyclerView.ViewHolder {
 
-    SearchGamesViewContract searchGamesViewContract;
-
     View view;
     TextView gameTitle;
     TextView gameRate;
     TextView gameRateScore;
     TextView ratingCounts;
     ImageView gameImage;
-    ImageView addButton;
+
     GameItemViewModel gameItemViewModel;
     LinearLayout iconPlatformLayout;
 
@@ -37,7 +32,7 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
     List<Integer> iconsIdAdded;
 
 
-    public GameViewHolder(View view, SearchGamesViewContract searchGamesViewContract) {
+    public GameViewHolder(View view) {
         super(view);
         this.view = view;
         gameTitle = view.findViewById(R.id.gameTitle);
@@ -46,10 +41,7 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
         gameImage = view.findViewById(R.id.gameImage);
         ratingCounts = view.findViewById(R.id.ratingCount);
         iconPlatformLayout = view.findViewById(R.id.platforms_icon_layout);
-        addButton = view.findViewById(R.id.addButton);
-        addAddButtonListener();
         initIconsAvaible();
-        this.searchGamesViewContract = searchGamesViewContract;
     }
 
     public void bindViewModel(GameItemViewModel gameItemViewModel) {
@@ -106,12 +98,4 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
         else gameRateScore.setTextColor(view.getResources().getColor(R.color.lowScore));
     }
 
-    private void addAddButtonListener(){
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchGamesViewContract.addGameToFavorite(gameItemViewModel.getId());
-            }
-        });
-    }
 }
