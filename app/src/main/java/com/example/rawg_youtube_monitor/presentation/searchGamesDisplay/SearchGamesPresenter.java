@@ -1,12 +1,14 @@
 package com.example.rawg_youtube_monitor.presentation.searchGamesDisplay;
 
 import com.example.rawg_youtube_monitor.data.model.Game;
+import com.example.rawg_youtube_monitor.data.model.Platform;
 import com.example.rawg_youtube_monitor.data.model.SearchGamesResponse;
 import com.example.rawg_youtube_monitor.data.repository.games.GamesRepository;
 import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.adapter.GameItemViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -64,7 +66,19 @@ public class SearchGamesPresenter {
     }
 
     private GameItemViewModel mapGameToGameItemViewModel(Game game){
-        return new GameItemViewModel(game.getId(),game.getName(),""+game.getRating(),game.getBackground_image());
+
+
+        return new GameItemViewModel(game.getId(),game.getName(),""+game.getRating(),game.getBackground_image(),extractPlatformsNameFromGame(game));
+    }
+
+    private List<String> extractPlatformsNameFromGame(Game game){
+        List<String> platforms = new ArrayList<>();
+
+        if(game.getPlatforms()!=null)
+        for(Map<String, Platform> map : game.getPlatforms())
+            if(map.containsKey("platform")) platforms.add(map.get("platform").getSlug());
+
+            return platforms;
     }
 
 

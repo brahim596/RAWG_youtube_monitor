@@ -1,16 +1,20 @@
 package com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.adapter;
 
+import java.util.List;
+
 public class GameItemViewModel {
     String id;
     String gameTitle;
     String gameRate;
     String gameImageUrl;
+    List<String> platforms;
 
-    public GameItemViewModel(String id, String gameTitle, String gameRate, String gameImageUrl) {
+    public GameItemViewModel(String id, String gameTitle, String gameRate, String gameImageUrl,List<String> platforms) {
         this.id = id;
         this.gameTitle = gameTitle;
         this.gameRate = gameRate;
         this.gameImageUrl = gameImageUrl;
+        this.platforms = platforms;
     }
 
     public String getId() {

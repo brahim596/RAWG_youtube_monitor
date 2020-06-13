@@ -13,7 +13,7 @@
         android:layout_gravity="center"
         card_view:cardBackgroundColor="@color/colorPrimary"
         android:layout_margin="10dp"
-        card_view:cardCornerRadius="40dp">
+        card_view:cardCornerRadius="20dp">
 
 
         <LinearLayout

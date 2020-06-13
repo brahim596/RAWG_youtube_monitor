@@ -1,5 +1,8 @@
 package com.example.rawg_youtube_monitor.data.model;
 
+import java.util.List;
+import java.util.Map;
+
 public class Game {
     String id;
     String slug;
@@ -10,6 +13,7 @@ public class Game {
     double rating;
     int rating_top;
     int ratings_count;
+    List<Map<String,Platform>> platforms;
 
     public String getId() {
         return id;
@@ -81,5 +85,13 @@ public class Game {
 
     public void setRatings_count(int ratings_count) {
         this.ratings_count = ratings_count;
+    }
+
+    public List<Map<String, Platform>> getPlatforms() {
+        return platforms;
+    }
+
+    public void setPlatforms(List<Map<String, Platform>> platforms) {
+        this.platforms = platforms;
     }
 }
