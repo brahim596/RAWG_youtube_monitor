@@ -42,17 +42,26 @@
                     android:layout_weight="2"
                     android:orientation="vertical">
 
+                    <LinearLayout
+                        android:id="@+id/platforms_icon_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingLeft="20dp"
+                        android:orientation="horizontal">
+                    </LinearLayout>
+
                     <TextView
                         android:id="@+id/gameTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/colorAccent"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="20dp"
-                        android:textStyle="bold"
-                        android:textSize="20dp"
                         android:layout_weight="1"
-                        android:text="gameTitle" />
+                        android:paddingLeft="20dp"
+                        android:paddingTop="0dp"
+                        android:text="gameTitle"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="25dp"
+                        android:textStyle="bold" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -81,15 +90,30 @@
 
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/imageView3"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="15dp"
                     android:layout_weight="8"
-                    android:padding="5dp"
-                    card_view:srcCompat="@android:drawable/ic_menu_add"
-                    />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/gameRateScore"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:textColor="@color/colorAccent"
+                        android:text="zrzer" />
+
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="15dp"
+                        android:layout_weight="1"
+                        android:padding="5dp"
+                        card_view:srcCompat="@android:drawable/ic_menu_add" />
+                </LinearLayout>
 
             </LinearLayout>
         </LinearLayout>
