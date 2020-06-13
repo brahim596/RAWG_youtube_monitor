@@ -7,7 +7,7 @@ public class Game {
     String released;
     String background_image;
     boolean tba;
-    int rating;
+    double rating;
     int rating_top;
     int ratings_count;
 
@@ -59,11 +59,11 @@ public class Game {
         this.tba = tba;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 

@@ -11,14 +11,19 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rawg_youtube_monitor.DependencyInjection;
 import com.example.rawg_youtube_monitor.R;
 import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.SearchGamesPresenter;
+import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.SearchGamesViewContract;
+import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.adapter.GameItemViewModel;
 import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.adapter.SearchGameAdapter;
 
-public class SearchGamesFragment extends Fragment {
+import java.util.List;
+
+public class SearchGamesFragment extends Fragment implements SearchGamesViewContract {
 
     private View view;
     private RecyclerView searchGamesResultRecyclerView;
@@ -38,7 +43,6 @@ public class SearchGamesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         view =inflater.inflate(R.layout.fragment_search_games,container,false);
-        this.searchGamesResultRecyclerView = view.findViewById(R.id.searchGamesResultRecyclerView);
         this.searchGamesEditText = view.findViewById(R.id.searchGamesEditText);
         setUpSearchFieldListener();
         return view;
@@ -48,6 +52,11 @@ public class SearchGamesFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         searchGamesPresenter = new SearchGamesPresenter(DependencyInjection.getGamesRepository());
+        searchGamesPresenter.setSearchGamesViewContract(this);
+        this.searchGameAdapter = new SearchGameAdapter();
+        this.searchGamesResultRecyclerView = view.findViewById(R.id.searchGamesResultRecyclerView);
+        this.searchGamesResultRecyclerView.setAdapter(searchGameAdapter);
+        this.searchGamesResultRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
     }
 
     public void setUpSearchFieldListener(){
@@ -67,5 +76,10 @@ public class SearchGamesFragment extends Fragment {
                 searchGamesPresenter.getGamesByName(s.toString());
             }
         });
+    }
+
+    @Override
+    public void displayGames(List<GameItemViewModel> gameItemViewModelList) {
+        this.searchGameAdapter.bindViewModels(gameItemViewModelList);
     }
 }

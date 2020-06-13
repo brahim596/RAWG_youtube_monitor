@@ -13,7 +13,7 @@ public class GameEntity {
     String id;
     String background_image;
     String name;
-    int rating;
+    double rating;
 
     @NonNull
     public String getId() {
@@ -40,11 +40,11 @@ public class GameEntity {
         this.name = name;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 }

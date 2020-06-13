@@ -19,10 +19,16 @@ public class SearchGamesPresenter {
     GamesRepository gamesRepository;
     CompositeDisposable compositeDisposable;
     List<GameItemViewModel> gameItemViewModelList;
+    SearchGamesViewContract searchGamesViewContract;
+
+    public void setSearchGamesViewContract(SearchGamesViewContract searchGamesViewContract) {
+        this.searchGamesViewContract = searchGamesViewContract;
+    }
 
     public SearchGamesPresenter(GamesRepository gamesRepository) {
         this.gamesRepository = gamesRepository;
         this.compositeDisposable = new CompositeDisposable();
+        this.gameItemViewModelList = new ArrayList<>();
     }
 
     public void getGamesByName(String searchField){
@@ -34,7 +40,9 @@ public class SearchGamesPresenter {
 
                     @Override
                     public void onSuccess(SearchGamesResponse searchGamesResponse) {
+                        gameItemViewModelList.clear();
                         gameItemViewModelList.addAll(mapGamesToGamesItemsViewModel(searchGamesResponse.getResults()));
+                        searchGamesViewContract.displayGames(gameItemViewModelList);
                     }
 
                     @Override
