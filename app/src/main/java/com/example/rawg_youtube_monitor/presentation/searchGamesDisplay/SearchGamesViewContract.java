@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface SearchGamesViewContract {
     void displayGames(List<GameItemViewModel> gameItemViewModelList);
+
+    void stopLoadingSpiner();
 }

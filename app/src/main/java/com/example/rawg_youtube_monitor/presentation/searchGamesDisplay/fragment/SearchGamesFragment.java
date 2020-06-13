@@ -3,6 +3,7 @@ package com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.fragmen
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,16 +37,19 @@ public class SearchGamesFragment extends Fragment implements SearchGamesViewCont
     private RecyclerView searchGamesResultRecyclerView;
     private EditText searchGamesEditText;
     private ProgressBar progressBar;
+    private LinearLayoutManager linearLayoutManager;
 
     private SearchGameAdapter searchGameAdapter;
     private SearchGamesPresenter searchGamesPresenter;
 
-    private Timer timer=new Timer();
+
+    private Timer timer = new Timer();
     private final long DELAY = 1000;
 
-    public SearchGamesFragment() {}
+    public SearchGamesFragment() {
+    }
 
-    public static SearchGamesFragment newInstance(){
+    public static SearchGamesFragment newInstance() {
         return new SearchGamesFragment();
     }
 
@@ -52,7 +57,7 @@ public class SearchGamesFragment extends Fragment implements SearchGamesViewCont
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        view =inflater.inflate(R.layout.fragment_search_games,container,false);
+        view = inflater.inflate(R.layout.fragment_search_games, container, false);
         this.searchGamesEditText = view.findViewById(R.id.searchGamesEditText);
         setUpSearchFieldListener();
         return view;
@@ -65,15 +70,12 @@ public class SearchGamesFragment extends Fragment implements SearchGamesViewCont
         searchGamesPresenter.setSearchGamesViewContract(this);
         progressBar = view.findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
-        this.searchGameAdapter = new SearchGameAdapter();
-        this.searchGamesResultRecyclerView = view.findViewById(R.id.searchGamesResultRecyclerView);
-        this.searchGamesResultRecyclerView.setVisibility(View.GONE);
-        this.searchGamesResultRecyclerView.setAdapter(searchGameAdapter);
-        this.searchGamesResultRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        setUpRecyclerView();
+
 
     }
 
-    public void setUpSearchFieldListener(){
+    public void setUpSearchFieldListener() {
         this.searchGamesEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -113,10 +115,40 @@ public class SearchGamesFragment extends Fragment implements SearchGamesViewCont
 
     }
 
+    private void setUpRecyclerView() {
+        this.searchGameAdapter = new SearchGameAdapter();
+        this.searchGamesResultRecyclerView = view.findViewById(R.id.searchGamesResultRecyclerView);
+        this.searchGamesResultRecyclerView.setVisibility(View.GONE);
+        this.searchGamesResultRecyclerView.setAdapter(searchGameAdapter);
+        linearLayoutManager = new LinearLayoutManager(view.getContext());
+        this.searchGamesResultRecyclerView.setLayoutManager(linearLayoutManager);
+        this.searchGamesResultRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) { //check for scroll down
+                    int visibleItemCount = linearLayoutManager.getChildCount();
+                    int totalItemCount = linearLayoutManager.getItemCount();
+                    int pastVisiblesItems = linearLayoutManager.findFirstVisibleItemPosition();
+
+                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                            progressBar.setVisibility(View.VISIBLE);
+                            searchGamesPresenter.loadNextPage();
+                        }
+                    }
+                }
+            });
+        }
+
+
     @Override
     public void displayGames(List<GameItemViewModel> gameItemViewModelList) {
         this.searchGameAdapter.bindViewModels(gameItemViewModelList);
         progressBar.setVisibility(View.GONE);
         searchGamesResultRecyclerView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void stopLoadingSpiner() {
+        this.progressBar.setVisibility(View.GONE);
     }
 }

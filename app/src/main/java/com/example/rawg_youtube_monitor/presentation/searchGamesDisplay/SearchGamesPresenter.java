@@ -22,9 +22,13 @@ public class SearchGamesPresenter {
     CompositeDisposable compositeDisposable;
     List<GameItemViewModel> gameItemViewModelList;
     SearchGamesViewContract searchGamesViewContract;
+    int page;
+    int totalCountItem;
+    String searchField;
 
     public void setSearchGamesViewContract(SearchGamesViewContract searchGamesViewContract) {
         this.searchGamesViewContract = searchGamesViewContract;
+        this.page = 1;
     }
 
     public SearchGamesPresenter(GamesRepository gamesRepository) {
@@ -33,30 +37,62 @@ public class SearchGamesPresenter {
         this.gameItemViewModelList = new ArrayList<>();
     }
 
-    public void getGamesByName(String searchField){
+    public void getGamesByName(String searchField) {
+        if (searchField != this.searchField) {
+            this.searchField = searchField;
+            this.page = 1;
+        }
         this.compositeDisposable.add(
-        this.gamesRepository.searchGamesByName(searchField,20,1)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<SearchGamesResponse>(){
+                this.gamesRepository.searchGamesByName(searchField, 20, page)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new DisposableSingleObserver<SearchGamesResponse>() {
 
-                    @Override
-                    public void onSuccess(SearchGamesResponse searchGamesResponse) {
-                        gameItemViewModelList.clear();
-                        gameItemViewModelList.addAll(mapGamesToGamesItemsViewModel(searchGamesResponse.getResults()));
-                        searchGamesViewContract.displayGames(gameItemViewModelList);
-                    }
+                                           @Override
+                                           public void onSuccess(SearchGamesResponse searchGamesResponse) {
+                                               totalCountItem = searchGamesResponse.getCount();
+                                               gameItemViewModelList.clear();
+                                               gameItemViewModelList.addAll(mapGamesToGamesItemsViewModel(searchGamesResponse.getResults()));
+                                               searchGamesViewContract.displayGames(gameItemViewModelList);
+                                           }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        System.out.println("TEST");
-                    }
-                }
-        ));
+                                           @Override
+                                           public void onError(Throwable e) {
+                                               searchGamesViewContract.stopLoadingSpiner();
+                                           }
+                                       }
+                        ));
+    }
+
+    public void loadNextPage() {
+        //check if we already have alll results
+        if(page*20 < totalCountItem) {
+            this.page++;
+            this.compositeDisposable.add(
+                    this.gamesRepository.searchGamesByName(searchField, 20, page)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeWith(new DisposableSingleObserver<SearchGamesResponse>() {
+
+                                               @Override
+                                               public void onSuccess(SearchGamesResponse searchGamesResponse) {
+                                                   gameItemViewModelList.addAll(mapGamesToGamesItemsViewModel(searchGamesResponse.getResults()));
+                                                   searchGamesViewContract.displayGames(gameItemViewModelList);
+                                               }
+
+                                               @Override
+                                               public void onError(Throwable e) {
+                                                   searchGamesViewContract.stopLoadingSpiner();
+                                               }
+                                           }
+                            ));
+        }else {
+            searchGamesViewContract.stopLoadingSpiner();
+        }
     }
 
 
-    private List<GameItemViewModel> mapGamesToGamesItemsViewModel(List<Game> games){
+    private List<GameItemViewModel> mapGamesToGamesItemsViewModel(List<Game> games) {
         List<GameItemViewModel> gameItemViewModels = new ArrayList<>();
 
         for (Game game : games)
@@ -65,20 +101,19 @@ public class SearchGamesPresenter {
         return gameItemViewModels;
     }
 
-    private GameItemViewModel mapGameToGameItemViewModel(Game game){
-        return new GameItemViewModel(game.getId(),game.getName(),""+game.getRating(),game.getBackground_image(),extractPlatformsNameFromGame(game),game.getRatings_count());
+    private GameItemViewModel mapGameToGameItemViewModel(Game game) {
+        return new GameItemViewModel(game.getId(), game.getName(), "" + game.getRating(), game.getBackground_image(), extractPlatformsNameFromGame(game), game.getRatings_count());
     }
 
-    private List<String> extractPlatformsNameFromGame(Game game){
+    private List<String> extractPlatformsNameFromGame(Game game) {
         List<String> platforms = new ArrayList<>();
 
-        if(game.getPlatforms()!=null)
-        for(Map<String, Platform> map : game.getPlatforms())
-            if(map.containsKey("platform")) platforms.add(map.get("platform").getSlug());
+        if (game.getPlatforms() != null)
+            for (Map<String, Platform> map : game.getPlatforms())
+                if (map.containsKey("platform")) platforms.add(map.get("platform").getSlug());
 
-            return platforms;
+        return platforms;
     }
-
 
 
 }
