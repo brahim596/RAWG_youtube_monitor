@@ -10,9 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import io.reactivex.Scheduler;
+import io.reactivex.CompletableObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
@@ -66,7 +68,7 @@ public class SearchGamesPresenter {
 
     public void loadNextPage() {
         //check if we already have alll results
-        if(page*20 < totalCountItem) {
+        if (page * 20 < totalCountItem) {
             this.page++;
             this.compositeDisposable.add(
                     this.gamesRepository.searchGamesByName(searchField, 20, page)
@@ -86,11 +88,28 @@ public class SearchGamesPresenter {
                                                }
                                            }
                             ));
-        }else {
+        } else {
             searchGamesViewContract.stopLoadingSpiner();
         }
     }
 
+    public void addGameToFavorite(String id) {
+       compositeDisposable.add( gamesRepository.addGameToFavoritesById(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableCompletableObserver() {
+                    @Override
+                    public void onComplete() {
+                        System.out.println("onComplete");
+                        searchGamesViewContract.notifyGameAddedToFavorite("Jeu ajouté à vos favoris !");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        System.out.println("error");
+                    }
+                }));
+    }
 
     private List<GameItemViewModel> mapGamesToGamesItemsViewModel(List<Game> games) {
         List<GameItemViewModel> gameItemViewModels = new ArrayList<>();

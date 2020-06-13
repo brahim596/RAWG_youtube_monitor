@@ -3,6 +3,7 @@ package com.example.rawg_youtube_monitor.data.repository.games;
 import com.example.rawg_youtube_monitor.data.db.entity.GameEntity;
 import com.example.rawg_youtube_monitor.data.model.Game;
 import com.example.rawg_youtube_monitor.data.model.SearchGamesResponse;
+import com.example.rawg_youtube_monitor.data.model.SingleGame;
 import com.example.rawg_youtube_monitor.data.repository.games.local.GamesLocalDataSource;
 import com.example.rawg_youtube_monitor.data.repository.games.remote.GamesRemoteDataSource;
 
@@ -10,17 +11,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Completable;
+import io.reactivex.CompletableSource;
 import io.reactivex.Flowable;
+import io.reactivex.Scheduler;
 import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Function;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 
 public class GamesDataRepository implements GamesRepository {
 
     private GamesRemoteDataSource gamesRemoteDataSource;
     private GamesLocalDataSource gamesLocalDataSource;
+    private CompositeDisposable compositeDisposable;
 
     public GamesDataRepository(GamesRemoteDataSource gamesRemoteDataSource, GamesLocalDataSource gamesLocalDataSource) {
         this.gamesRemoteDataSource = gamesRemoteDataSource;
         this.gamesLocalDataSource = gamesLocalDataSource;
+        this.compositeDisposable = new CompositeDisposable();
     }
 
     @Override
@@ -29,7 +39,7 @@ public class GamesDataRepository implements GamesRepository {
     }
 
     @Override
-    public Single<Game> getGameById(String id) {
+    public Single<SingleGame> getGameById(String id) {
         return this.gamesRemoteDataSource.getGameById(id);
     }
 
@@ -38,8 +48,14 @@ public class GamesDataRepository implements GamesRepository {
     }
 
     public Completable addGameToFavoritesById(String id){
-        //TODO SETUP CALL TO GET GAME BY ID
-        return null;
+        return gamesRemoteDataSource.getGameById(id).flatMapCompletable(new Function<SingleGame, CompletableSource>() {
+            @Override
+            public CompletableSource apply(SingleGame singleGame) throws Exception {
+                Game newGame = new Game();
+                newGame.copyGame(singleGame);
+               return gamesLocalDataSource.insertGameInFavorites(mapGameToGameEntity(newGame));
+            }
+        });
     }
 
     public Completable removeGameFromFavoritesById(String id){

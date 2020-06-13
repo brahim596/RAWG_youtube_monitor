@@ -8,4 +8,8 @@ public interface SearchGamesViewContract {
     void displayGames(List<GameItemViewModel> gameItemViewModelList);
 
     void stopLoadingSpiner();
+
+    void addGameToFavorite(String id);
+
+    void notifyGameAddedToFavorite(String message);
 }

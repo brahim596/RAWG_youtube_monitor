@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rawg_youtube_monitor.R;
+import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.SearchGamesViewContract;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,16 +15,18 @@ import java.util.List;
 public class SearchGameAdapter extends RecyclerView.Adapter<GameViewHolder> {
 
     List<GameItemViewModel> gameItemViewModels;
+    SearchGamesViewContract searchGamesViewContract;
 
 
-    public SearchGameAdapter() {
+    public SearchGameAdapter(SearchGamesViewContract searchGamesViewContract) {
         gameItemViewModels = new ArrayList<>();
+        this.searchGamesViewContract = searchGamesViewContract;
     }
 
     @NonNull
     @Override
     public GameViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new GameViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.game_card, parent, false));
+        return new GameViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.game_card, parent, false),searchGamesViewContract);
     }
 
     @Override

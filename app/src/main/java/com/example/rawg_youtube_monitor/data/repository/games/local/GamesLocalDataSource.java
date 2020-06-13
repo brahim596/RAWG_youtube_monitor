@@ -7,13 +7,17 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 public class GamesLocalDataSource {
 
     private GameDatabase gameDatabase;
+    private CompositeDisposable compositeDisposable;
 
     public GamesLocalDataSource(GameDatabase gameDatabase) {
         this.gameDatabase = gameDatabase;
+        this.compositeDisposable = new CompositeDisposable();
     }
 
     public Flowable<List<GameEntity>> getAllFavGames(){

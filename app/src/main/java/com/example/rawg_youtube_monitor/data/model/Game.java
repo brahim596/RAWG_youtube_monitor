@@ -1,5 +1,6 @@
 package com.example.rawg_youtube_monitor.data.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +14,21 @@ public class Game {
     double rating;
     int rating_top;
     int ratings_count;
-    List<Map<String,Platform>> platforms;
+    private List<Map<String,Platform>> platforms;
+
+    public void copyGame(SingleGame singleGame) {
+        platforms = new ArrayList<>();
+        id = singleGame.getId();
+        slug = singleGame.getSlug();
+        name = singleGame.getName();
+        released = singleGame.getReleased();
+        background_image = singleGame.getBackground_image();
+        tba = singleGame.isTba();
+        rating = singleGame.getRating();
+        rating_top = singleGame.getRating_top();
+        ratings_count = singleGame.getRatings_count();
+        platforms.addAll(singleGame.getPlatforms());
+    }
 
     public String getId() {
         return id;

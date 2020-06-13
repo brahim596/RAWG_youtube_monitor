@@ -116,7 +116,7 @@ public class SearchGamesFragment extends Fragment implements SearchGamesViewCont
     }
 
     private void setUpRecyclerView() {
-        this.searchGameAdapter = new SearchGameAdapter();
+        this.searchGameAdapter = new SearchGameAdapter(this);
         this.searchGamesResultRecyclerView = view.findViewById(R.id.searchGamesResultRecyclerView);
         this.searchGamesResultRecyclerView.setVisibility(View.GONE);
         this.searchGamesResultRecyclerView.setAdapter(searchGameAdapter);
@@ -150,5 +150,16 @@ public class SearchGamesFragment extends Fragment implements SearchGamesViewCont
     @Override
     public void stopLoadingSpiner() {
         this.progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void addGameToFavorite(String id) {
+        this.searchGamesPresenter.addGameToFavorite(id);
+    }
+
+    @Override
+    public void notifyGameAddedToFavorite(String message) {
+        Toast toast = Toast.makeText(getContext(), message, Toast.LENGTH_LONG);
+        toast.show();
     }
 }
