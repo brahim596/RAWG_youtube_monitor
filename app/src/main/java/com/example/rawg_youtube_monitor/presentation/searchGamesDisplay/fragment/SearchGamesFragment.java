@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,6 +34,7 @@ public class SearchGamesFragment extends Fragment implements SearchGamesViewCont
     private View view;
     private RecyclerView searchGamesResultRecyclerView;
     private EditText searchGamesEditText;
+    private ProgressBar progressBar;
 
     private SearchGameAdapter searchGameAdapter;
     private SearchGamesPresenter searchGamesPresenter;
@@ -61,10 +63,14 @@ public class SearchGamesFragment extends Fragment implements SearchGamesViewCont
         super.onActivityCreated(savedInstanceState);
         searchGamesPresenter = new SearchGamesPresenter(DependencyInjection.getGamesRepository());
         searchGamesPresenter.setSearchGamesViewContract(this);
+        progressBar = view.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
         this.searchGameAdapter = new SearchGameAdapter();
         this.searchGamesResultRecyclerView = view.findViewById(R.id.searchGamesResultRecyclerView);
+        this.searchGamesResultRecyclerView.setVisibility(View.GONE);
         this.searchGamesResultRecyclerView.setAdapter(searchGameAdapter);
         this.searchGamesResultRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
     }
 
     public void setUpSearchFieldListener(){
@@ -88,6 +94,14 @@ public class SearchGamesFragment extends Fragment implements SearchGamesViewCont
                         new TimerTask() {
                             @Override
                             public void run() {
+                                //Need UI thread to modify UI
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        progressBar.setVisibility(View.VISIBLE);
+                                        searchGamesResultRecyclerView.setVisibility(View.GONE);
+                                    }
+                                });
                                 searchGamesPresenter.getGamesByName(s.toString());
                             }
                         },
@@ -102,5 +116,7 @@ public class SearchGamesFragment extends Fragment implements SearchGamesViewCont
     @Override
     public void displayGames(List<GameItemViewModel> gameItemViewModelList) {
         this.searchGameAdapter.bindViewModels(gameItemViewModelList);
+        progressBar.setVisibility(View.GONE);
+        searchGamesResultRecyclerView.setVisibility(View.VISIBLE);
     }
 }

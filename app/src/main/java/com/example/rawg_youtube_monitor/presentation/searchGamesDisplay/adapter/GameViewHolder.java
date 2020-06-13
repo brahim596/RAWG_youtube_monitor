@@ -54,7 +54,7 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
             ratingCounts.setText("( 0 avis )");
         } else {
             gameRateScore.setText((int) (Double.parseDouble(gameItemViewModel.getGameRate()) * 20) + "");
-            ratingCounts.setText("("+gameItemViewModel.getRatings_count()+" avis )");
+            ratingCounts.setText("( "+gameItemViewModel.getRatings_count()+" avis )");
         }
         setUpGameScoreColor();
         Glide.with(view).load(this.gameItemViewModel.gameImageUrl).fitCenter().transition(DrawableTransitionOptions.withCrossFade(100)).into(this.gameImage);
