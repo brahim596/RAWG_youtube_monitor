@@ -6,6 +6,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.example.rawg_youtube_monitor.R;
 
 public class GameViewHolder extends RecyclerView.ViewHolder {
@@ -28,6 +30,6 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
         this.gameItemViewModel = gameItemViewModel;
         gameTitle.setText(gameItemViewModel.getGameTitle());
         gameRate.setText(gameItemViewModel.getGameRate());
-        //Set up image with Glide
+        Glide.with(view).load(this.gameItemViewModel.gameImageUrl).fitCenter().transition(DrawableTransitionOptions.withCrossFade(100)).into(this.gameImage);
     }
 }
