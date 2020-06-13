@@ -43,8 +43,19 @@ public class GamesDataRepository implements GamesRepository {
         return this.gamesRemoteDataSource.getGameById(id);
     }
 
-    public Flowable<List<GameEntity>> getAllFavoritesGames(){
-        return this.gamesLocalDataSource.getAllFavGames();
+    @Override
+    public Flowable<List<Game>> getAllFavoriteGames() {
+        return this.gamesLocalDataSource.getAllFavGames().map(new Function<List<GameEntity>, List<Game>>() {
+            @Override
+            public List<Game> apply(List<GameEntity> gameEntities) throws Exception {
+                List<Game> games = new ArrayList<>();
+                for(GameEntity ge:gameEntities)
+                    games.add(mapGameEntityToGame(ge));
+
+                return games;
+            }
+        });
+
     }
 
     public Completable addGameToFavoritesById(String id){

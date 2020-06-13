@@ -5,6 +5,7 @@ import com.example.rawg_youtube_monitor.data.model.Platform;
 import com.example.rawg_youtube_monitor.data.model.SearchGamesResponse;
 import com.example.rawg_youtube_monitor.data.repository.games.GamesRepository;
 import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.adapter.GameItemViewModel;
+import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.mapper.GamesMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ public class SearchGamesPresenter {
     CompositeDisposable compositeDisposable;
     List<GameItemViewModel> gameItemViewModelList;
     SearchGamesViewContract searchGamesViewContract;
+    GamesMapper gamesMapper;
     int page;
     int totalCountItem;
     String searchField;
@@ -35,6 +37,7 @@ public class SearchGamesPresenter {
 
     public SearchGamesPresenter(GamesRepository gamesRepository) {
         this.gamesRepository = gamesRepository;
+        this.gamesMapper = new GamesMapper();
         this.compositeDisposable = new CompositeDisposable();
         this.gameItemViewModelList = new ArrayList<>();
     }
@@ -54,7 +57,7 @@ public class SearchGamesPresenter {
                                            public void onSuccess(SearchGamesResponse searchGamesResponse) {
                                                totalCountItem = searchGamesResponse.getCount();
                                                gameItemViewModelList.clear();
-                                               gameItemViewModelList.addAll(mapGamesToGamesItemsViewModel(searchGamesResponse.getResults()));
+                                               gameItemViewModelList.addAll(gamesMapper.mapGamesToGamesItemsViewModel(searchGamesResponse.getResults()));
                                                searchGamesViewContract.displayGames(gameItemViewModelList);
                                            }
 
@@ -78,7 +81,7 @@ public class SearchGamesPresenter {
 
                                                @Override
                                                public void onSuccess(SearchGamesResponse searchGamesResponse) {
-                                                   gameItemViewModelList.addAll(mapGamesToGamesItemsViewModel(searchGamesResponse.getResults()));
+                                                   gameItemViewModelList.addAll(gamesMapper.mapGamesToGamesItemsViewModel(searchGamesResponse.getResults()));
                                                    searchGamesViewContract.displayGames(gameItemViewModelList);
                                                }
 
@@ -111,28 +114,6 @@ public class SearchGamesPresenter {
                 }));
     }
 
-    private List<GameItemViewModel> mapGamesToGamesItemsViewModel(List<Game> games) {
-        List<GameItemViewModel> gameItemViewModels = new ArrayList<>();
-
-        for (Game game : games)
-            gameItemViewModels.add(mapGameToGameItemViewModel(game));
-
-        return gameItemViewModels;
-    }
-
-    private GameItemViewModel mapGameToGameItemViewModel(Game game) {
-        return new GameItemViewModel(game.getId(), game.getName(), "" + game.getRating(), game.getBackground_image(), extractPlatformsNameFromGame(game), game.getRatings_count());
-    }
-
-    private List<String> extractPlatformsNameFromGame(Game game) {
-        List<String> platforms = new ArrayList<>();
-
-        if (game.getPlatforms() != null)
-            for (Map<String, Platform> map : game.getPlatforms())
-                if (map.containsKey("platform")) platforms.add(map.get("platform").getSlug());
-
-        return platforms;
-    }
 
 
 }

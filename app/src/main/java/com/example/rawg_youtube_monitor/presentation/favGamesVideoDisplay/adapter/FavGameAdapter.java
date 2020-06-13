@@ -19,8 +19,9 @@ public class FavGameAdapter extends RecyclerView.Adapter<GameViewHolder> {
     List<GameItemViewModel> gameItemViewModels;
     FavGamesViewContract favGamesViewContract;
 
-    public FavGameAdapter() {
+    public FavGameAdapter(FavGamesViewContract favGamesViewContract) {
         this.gameItemViewModels = new ArrayList<>();
+        this.favGamesViewContract = favGamesViewContract;
     }
 
     @NonNull
