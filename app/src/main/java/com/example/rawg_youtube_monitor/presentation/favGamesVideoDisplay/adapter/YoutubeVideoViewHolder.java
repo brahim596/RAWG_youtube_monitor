@@ -33,7 +33,7 @@ public class YoutubeVideoViewHolder extends RecyclerView.ViewHolder {
     public void bindViewModel(YoutubeVideoItemViewModel youtubeVideoItemViewModel){
         this.youtubeVideoItemViewModel = youtubeVideoItemViewModel;
         this.title.setText(youtubeVideoItemViewModel.getTitle());
-        this.nbViews.setText(youtubeVideoItemViewModel.getView_count());
+        this.nbViews.setText(youtubeVideoItemViewModel.getView_count()+"");
         this.channelTitle.setText(youtubeVideoItemViewModel.getChannel_title());
         Glide.with(view).load(this.youtubeVideoItemViewModel.getThumbnail()).fitCenter().transition(DrawableTransitionOptions.withCrossFade(100)).into(this.thumbnail);
     }

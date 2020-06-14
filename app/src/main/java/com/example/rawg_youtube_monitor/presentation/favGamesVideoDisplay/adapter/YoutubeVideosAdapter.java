@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rawg_youtube_monitor.R;
+import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.adapter.GameItemViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,5 +34,11 @@ public class YoutubeVideosAdapter extends RecyclerView.Adapter<YoutubeVideoViewH
     @Override
     public int getItemCount() {
         return youtubeVideoItemViewModelList.size();
+    }
+
+    public void bindViewModels(List<YoutubeVideoItemViewModel> youtubeVideoItemViewModels){
+        this.youtubeVideoItemViewModelList.clear();
+        this.youtubeVideoItemViewModelList.addAll(youtubeVideoItemViewModels);
+        this.notifyDataSetChanged();
     }
 }

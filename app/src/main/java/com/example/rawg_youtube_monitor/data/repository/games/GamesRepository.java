@@ -1,6 +1,7 @@
 package com.example.rawg_youtube_monitor.data.repository.games;
 
 import com.example.rawg_youtube_monitor.data.db.entity.GameEntity;
+import com.example.rawg_youtube_monitor.data.db.entity.YoutubeVideoEntity;
 import com.example.rawg_youtube_monitor.data.model.Game;
 import com.example.rawg_youtube_monitor.data.model.SearchGamesResponse;
 import com.example.rawg_youtube_monitor.data.model.SingleGame;
@@ -23,4 +24,6 @@ public interface GamesRepository {
     Completable addGameToFavoritesById(String id);
 
     Completable removeGameFromFavoritesById(String id);
+
+    Flowable<List<YoutubeVideoEntity>> getAllFavoriteGamesYoutubeVideo();
 }

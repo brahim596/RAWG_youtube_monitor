@@ -15,6 +15,18 @@ public class YoutubeVideoItemViewModel {
     String thumbnail;
 
 
+    public YoutubeVideoItemViewModel(String youtube_id, String channel_title, String title, String description, String created, int view_count, int like_count, int dislike_count, String thumbnail) {
+        this.youtube_id = youtube_id;
+        this.channel_title = channel_title;
+        this.title = title;
+        this.description = description;
+        this.created = created;
+        this.view_count = view_count;
+        this.like_count = like_count;
+        this.dislike_count = dislike_count;
+        this.thumbnail = thumbnail;
+    }
+
     @NonNull
     public String getYoutube_id() {
         return youtube_id;

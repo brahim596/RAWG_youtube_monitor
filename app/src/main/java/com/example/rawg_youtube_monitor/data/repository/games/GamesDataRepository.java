@@ -58,12 +58,13 @@ public class GamesDataRepository implements GamesRepository {
                 List<Game> games = new ArrayList<>();
                 for(GameEntity ge:gameEntities)
                     games.add(mapGameEntityToGame(ge));
-
                 return games;
             }
         });
 
     }
+
+
 
     public Completable addGameToFavoritesById(final String id){
         return gamesRemoteDataSource.getGameById(id).flatMapCompletable(new Function<SingleGame, CompletableSource>() {
@@ -85,6 +86,19 @@ public class GamesDataRepository implements GamesRepository {
 
     public Completable removeGameFromFavoritesById(String id){
         return this.gamesLocalDataSource.deleteGameById(id);
+    }
+
+    public Flowable<List<YoutubeVideoEntity>> getAllFavoriteGamesYoutubeVideo() {
+        return this.gamesLocalDataSource.getAllFavGames().map(new Function<List<GameEntity>, List<YoutubeVideoEntity>>() {
+            @Override
+            public List<YoutubeVideoEntity> apply(List<GameEntity> gameEntities) throws Exception {
+                List<YoutubeVideoEntity> youtubeVideoEntities = new ArrayList<>();
+                for(GameEntity ge:gameEntities)
+                    youtubeVideoEntities.add(ge.getYoutubeVideoEntity());
+                return youtubeVideoEntities;
+            }
+        });
+
     }
 
 

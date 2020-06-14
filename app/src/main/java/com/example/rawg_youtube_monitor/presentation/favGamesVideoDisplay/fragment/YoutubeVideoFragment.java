@@ -10,9 +10,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.rawg_youtube_monitor.DependencyInjection;
 import com.example.rawg_youtube_monitor.R;
 import com.example.rawg_youtube_monitor.presentation.favGamesVideoDisplay.YoutubeVideoGamesContract;
+import com.example.rawg_youtube_monitor.presentation.favGamesVideoDisplay.YoutubeVideoGamesPresenter;
+import com.example.rawg_youtube_monitor.presentation.favGamesVideoDisplay.adapter.YoutubeVideoItemViewModel;
 import com.example.rawg_youtube_monitor.presentation.favGamesVideoDisplay.adapter.YoutubeVideosAdapter;
+
+import java.util.List;
 
 public class YoutubeVideoFragment extends Fragment implements YoutubeVideoGamesContract {
 
@@ -20,7 +26,8 @@ public class YoutubeVideoFragment extends Fragment implements YoutubeVideoGamesC
     private RecyclerView youtubeVideoRecyclerView;
     private LinearLayoutManager linearLayoutManager;
 
-    private YoutubeVideosAdapter favGameAdapter;
+    private YoutubeVideosAdapter youtubeVideosAdapter;
+    private YoutubeVideoGamesPresenter youtubeVideoGamesPresenter;
 
 
 
@@ -35,26 +42,29 @@ public class YoutubeVideoFragment extends Fragment implements YoutubeVideoGamesC
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        view =inflater.inflate(R.layout.fragment_fav_games_collection,container,false);
+        view =inflater.inflate(R.layout.fragment_fav_games_video,container,false);
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        this.youtubeVideoGamesPresenter = new YoutubeVideoGamesPresenter(DependencyInjection.getGamesRepository());
+        this.youtubeVideoGamesPresenter.setYoutubeVideoGamesContract(this);
         setUpRecyclerView();
+        this.youtubeVideoGamesPresenter.getAllFavoriteGames();
     }
 
     public void setUpRecyclerView(){
-        this.favGameAdapter=new YoutubeVideosAdapter();
+        this.youtubeVideosAdapter=new YoutubeVideosAdapter();
         this.youtubeVideoRecyclerView = view.findViewById(R.id.youtube_video_recycler_view);
-        this.youtubeVideoRecyclerView.setAdapter(favGameAdapter);
+        this.youtubeVideoRecyclerView.setAdapter(youtubeVideosAdapter);
         linearLayoutManager = new LinearLayoutManager(view.getContext());
         this.youtubeVideoRecyclerView.setLayoutManager(linearLayoutManager);
     }
 
     @Override
-    public void displayAllVideo() {
-
+    public void displayAllVideo(List<YoutubeVideoItemViewModel> youtubeVideoItemViewModels) {
+        this.youtubeVideosAdapter.bindViewModels(youtubeVideoItemViewModels);
     }
 }
