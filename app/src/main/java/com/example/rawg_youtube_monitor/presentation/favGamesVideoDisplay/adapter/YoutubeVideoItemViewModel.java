@@ -16,6 +16,8 @@ public class YoutubeVideoItemViewModel {
     int like_count;
     int dislike_count;
     String thumbnail;
+    boolean morevideoClicked = true;
+    boolean child = true;
 
     /**
      * Added to the liste view of the adapter
@@ -116,5 +118,21 @@ public class YoutubeVideoItemViewModel {
 
     public void setMoreVideo(List<YoutubeVideoItemViewModel> moreVideo) {
         this.moreVideo = moreVideo;
+    }
+
+    public boolean isMorevideoClicked() {
+        return morevideoClicked;
+    }
+
+    public void setMorevideoClicked(boolean morevideoClicked) {
+        this.morevideoClicked = morevideoClicked;
+    }
+
+    public boolean isChild() {
+        return child;
+    }
+
+    public void setChild(boolean child) {
+        this.child = child;
     }
 }

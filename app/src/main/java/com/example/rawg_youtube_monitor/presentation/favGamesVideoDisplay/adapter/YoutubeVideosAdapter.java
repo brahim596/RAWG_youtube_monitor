@@ -10,15 +10,24 @@ import com.example.rawg_youtube_monitor.R;
 import com.example.rawg_youtube_monitor.presentation.favGamesVideoDisplay.YoutubeVideoGamesContract;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class YoutubeVideosAdapter extends RecyclerView.Adapter<YoutubeVideoViewHolder> {
 
     private List<YoutubeVideoItemViewModel> youtubeVideoItemViewModelList;
     private YoutubeVideoGamesContract youtubeVideoGamesContract;
 
+    /**
+     * This map is use to save main youtube video id
+     * with his childs video when they are displayed
+     */
+    private Map<String,List<YoutubeVideoItemViewModel>> saveMainYoutubeIdWithChildsVideoMap;
+
     public YoutubeVideosAdapter() {
         this.youtubeVideoItemViewModelList = new ArrayList<>();
+        this.saveMainYoutubeIdWithChildsVideoMap = new HashMap<>();
     }
 
     public void setYoutubeVideoGamesContract(YoutubeVideoGamesContract youtubeVideoGamesContract) {
@@ -50,6 +59,16 @@ public class YoutubeVideosAdapter extends RecyclerView.Adapter<YoutubeVideoViewH
             }
         int position = this.youtubeVideoItemViewModelList.indexOf(yt);
         this.youtubeVideoItemViewModelList.addAll(position+1,yt.getMoreVideo());
+        List<YoutubeVideoItemViewModel> copyList = new ArrayList<>();
+        copyList.addAll(yt.getMoreVideo());
+        this.saveMainYoutubeIdWithChildsVideoMap.put(yt.getYoutube_id(),copyList);
+        yt.setMorevideoClicked(true);
+        this.notifyDataSetChanged();
+    }
+
+    public void reduceMoreVideo(String id){
+        this.youtubeVideoItemViewModelList.removeAll(this.saveMainYoutubeIdWithChildsVideoMap.get(id));
+        this.saveMainYoutubeIdWithChildsVideoMap.remove(id);
         this.notifyDataSetChanged();
     }
 

@@ -6,4 +6,6 @@
     <color name="highScore">#45AF49</color>
     <color name="mediumScore">#FFEB3B</color>
     <color name="lowScore">#B32121</color>
+    <color name="mainYoutubeVideoCardFlag">#B32121</color>
+    <color name="childYoutubeVideoCardFlag">#616161</color>
 </resources>

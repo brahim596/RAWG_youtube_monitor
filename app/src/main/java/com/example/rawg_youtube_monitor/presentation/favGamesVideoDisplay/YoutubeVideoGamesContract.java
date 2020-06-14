@@ -10,4 +10,6 @@ public interface YoutubeVideoGamesContract {
     void addYoutubeVideo(YoutubeVideoItemViewModel youtubeVideoItemViewModel);
 
     void viewMoreVideo(String id);
+
+    void reduceMoreVideo(String id);
 }

@@ -42,6 +42,8 @@ public class YoutubeGamesVideoMapper {
         ytrs.getResults().remove(0);
         YoutubeVideoItemViewModel youtubeVideoItemViewModel = mapYoutubeGameVideoToYoutubeVideoItemViewModel(yt);
         youtubeVideoItemViewModel.getMoreVideo().addAll(mapYoutubeGameVideoListToYoutubeVideoItemViewModelList(ytrs.getResults()));
+        youtubeVideoItemViewModel.setMorevideoClicked(false);
+        youtubeVideoItemViewModel.setChild(false);
 
         return youtubeVideoItemViewModel;
     }

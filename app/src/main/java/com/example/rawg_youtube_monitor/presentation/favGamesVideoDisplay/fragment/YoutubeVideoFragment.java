@@ -63,6 +63,20 @@ public class YoutubeVideoFragment extends Fragment implements YoutubeVideoGamesC
         this.youtubeVideoRecyclerView.setAdapter(youtubeVideosAdapter);
         linearLayoutManager = new LinearLayoutManager(view.getContext());
         this.youtubeVideoRecyclerView.setLayoutManager(linearLayoutManager);
+        this.youtubeVideoRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) { //check for scroll down
+                    int visibleItemCount = linearLayoutManager.getChildCount();
+                    int totalItemCount = linearLayoutManager.getItemCount();
+                    int pastVisiblesItems = linearLayoutManager.findFirstVisibleItemPosition();
+
+                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                        youtubeVideoGamesPresenter.getYoutubeVideoGamePage();
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -73,10 +87,18 @@ public class YoutubeVideoFragment extends Fragment implements YoutubeVideoGamesC
     @Override
     public void addYoutubeVideo(YoutubeVideoItemViewModel youtubeVideoItemViewModel) {
         this.youtubeVideosAdapter.addSingleViewModel(youtubeVideoItemViewModel);
+        this.youtubeVideoRecyclerView.scheduleLayoutAnimation();
     }
 
     @Override
     public void viewMoreVideo(String id) {
         this.youtubeVideosAdapter.displayMoreVideoById(id);
+        this.youtubeVideoRecyclerView.scheduleLayoutAnimation();
+    }
+
+    @Override
+    public void reduceMoreVideo(String id) {
+        this.youtubeVideosAdapter.reduceMoreVideo(id);
+        this.youtubeVideoRecyclerView.scheduleLayoutAnimation();
     }
 }
