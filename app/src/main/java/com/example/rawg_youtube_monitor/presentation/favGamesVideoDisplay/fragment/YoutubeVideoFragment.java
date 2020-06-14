@@ -58,6 +58,7 @@ public class YoutubeVideoFragment extends Fragment implements YoutubeVideoGamesC
 
     public void setUpRecyclerView(){
         this.youtubeVideosAdapter=new YoutubeVideosAdapter();
+        this.youtubeVideosAdapter.setYoutubeVideoGamesContract(this);
         this.youtubeVideoRecyclerView = view.findViewById(R.id.youtube_video_recycler_view);
         this.youtubeVideoRecyclerView.setAdapter(youtubeVideosAdapter);
         linearLayoutManager = new LinearLayoutManager(view.getContext());
@@ -72,5 +73,10 @@ public class YoutubeVideoFragment extends Fragment implements YoutubeVideoGamesC
     @Override
     public void addYoutubeVideo(YoutubeVideoItemViewModel youtubeVideoItemViewModel) {
         this.youtubeVideosAdapter.addSingleViewModel(youtubeVideoItemViewModel);
+    }
+
+    @Override
+    public void viewMoreVideo(String id) {
+        this.youtubeVideosAdapter.displayMoreVideoById(id);
     }
 }

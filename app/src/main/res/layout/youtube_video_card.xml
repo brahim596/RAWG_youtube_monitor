@@ -45,6 +45,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="16dp"
                         android:textStyle="bold"
+                        android:maxLines="3"
                         android:textColor="@color/colorAccent"
                         android:padding="10dp"
                         android:text="Zelda breath Of The wild" />
@@ -68,15 +69,29 @@
                         android:layout_height="match_parent">
 
                         <TextView
+                            android:id="@+id/moreVideo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|center"
+                            android:layout_marginBottom="0dp"
+                            android:layout_marginRight="50dp"
+                            android:textSize="10dp"
+                            android:textColor="@color/design_default_color_background"
+                            android:drawableBottom="@drawable/ic_baseline_arrow_drop_down_24"
+                            android:drawablePadding="0dp"
+                            android:text="Voir plus" />
+
+                        <TextView
                             android:id="@+id/nbViews"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="650"
                             android:layout_margin="15dp"
-                            android:textSize="15dp"
+                            android:textSize="10dp"
                             android:layout_gravity="bottom|right"
                             android:drawableRight="@drawable/ic_baseline_remove_red_eye_24"
                             android:drawablePadding="5dp"
+                            android:gravity="center_vertical"
                             android:textColor="@color/colorAccent" />
                     </FrameLayout>
 
@@ -96,7 +111,7 @@
                 android:layout_marginLeft="130dp"
                 android:layout_marginEnd="200dp"
                 android:layout_marginRight="330dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/bg_button_play"
                 android:padding="15dp"
                 card_view:srcCompat="@android:drawable/ic_media_play" />
