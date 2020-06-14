@@ -1,15 +1,13 @@
-package com.example.rawg_youtube_monitor.presentation.favGamesVideoDisplay;
+package com.example.rawg_youtube_monitor.presentation.favGamesCollectionDisplay;
 
-import com.example.rawg_youtube_monitor.data.db.entity.GameEntity;
 import com.example.rawg_youtube_monitor.data.model.Game;
 import com.example.rawg_youtube_monitor.data.repository.games.GamesRepository;
-import com.example.rawg_youtube_monitor.presentation.favGamesVideoDisplay.fragment.FavGamesViewContract;
+import com.example.rawg_youtube_monitor.presentation.favGamesCollectionDisplay.fragment.FavGamesViewContract;
 import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.adapter.GameItemViewModel;
 import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.mapper.GamesMapper;
 
 import java.util.List;
 
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;

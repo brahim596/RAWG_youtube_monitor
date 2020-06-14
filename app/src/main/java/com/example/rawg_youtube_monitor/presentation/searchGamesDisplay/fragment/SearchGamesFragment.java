@@ -162,4 +162,10 @@ public class SearchGamesFragment extends Fragment implements SearchGamesViewCont
         Toast toast = Toast.makeText(getContext(), message, Toast.LENGTH_LONG);
         toast.show();
     }
+
+    @Override
+    public void notifyErrorServeur(String message) {
+        Toast toast = Toast.makeText(getContext(), message, Toast.LENGTH_LONG);
+        toast.show();
+    }
 }

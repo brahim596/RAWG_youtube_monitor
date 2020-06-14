@@ -100,6 +100,7 @@ public class GamesDataRepository implements GamesRepository {
         gameEntity.setBackground_image(game.getBackground_image());
         gameEntity.setName(game.getName());
         gameEntity.setRating(game.getRating());
+        gameEntity.setRating_count(game.getRatings_count());
         return gameEntity;
     }
 
@@ -109,6 +110,7 @@ public class GamesDataRepository implements GamesRepository {
         game.setBackground_image(gameEntity.getBackground_image());
         game.setName(gameEntity.getName());
         game.setRating(gameEntity.getRating());
+        game.setRatings_count(gameEntity.getRating_count());
         return game;
     }
 

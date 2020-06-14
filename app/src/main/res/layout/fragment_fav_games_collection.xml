@@ -3,13 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/favGamesRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:layout_gravity="center_horizontal"
-        android:textAlignment="center"
-        android:text="FRAGMENT FAV GAMES COLLECTION" />
+        android:layout_height="match_parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

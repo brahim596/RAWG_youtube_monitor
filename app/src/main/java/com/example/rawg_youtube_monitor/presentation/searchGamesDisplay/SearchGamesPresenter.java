@@ -1,5 +1,7 @@
 package com.example.rawg_youtube_monitor.presentation.searchGamesDisplay;
 
+import android.widget.Toast;
+
 import com.example.rawg_youtube_monitor.data.model.Game;
 import com.example.rawg_youtube_monitor.data.model.Platform;
 import com.example.rawg_youtube_monitor.data.model.SearchGamesResponse;
@@ -103,13 +105,12 @@ public class SearchGamesPresenter {
                 .subscribeWith(new DisposableCompletableObserver() {
                     @Override
                     public void onComplete() {
-                        System.out.println("onComplete");
                         searchGamesViewContract.notifyGameAddedToFavorite("Jeu ajouté à vos favoris !");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        System.out.println("error");
+                        searchGamesViewContract.notifyErrorServeur("Serveur indisponible");
                     }
                 }));
     }

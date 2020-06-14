@@ -12,4 +12,6 @@ public interface SearchGamesViewContract {
     void addGameToFavorite(String id);
 
     void notifyGameAddedToFavorite(String message);
+
+    void notifyErrorServeur(String message);
 }

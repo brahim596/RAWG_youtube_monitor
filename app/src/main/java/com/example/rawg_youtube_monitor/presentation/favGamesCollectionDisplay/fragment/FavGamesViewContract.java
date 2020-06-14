@@ -1,4 +1,4 @@
-package com.example.rawg_youtube_monitor.presentation.favGamesVideoDisplay.fragment;
+package com.example.rawg_youtube_monitor.presentation.favGamesCollectionDisplay.fragment;
 
 import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.adapter.GameItemViewModel;
 

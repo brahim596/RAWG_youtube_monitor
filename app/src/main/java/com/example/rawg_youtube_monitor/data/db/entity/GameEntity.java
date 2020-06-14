@@ -14,6 +14,7 @@ public class GameEntity {
     String background_image;
     String name;
     double rating;
+    int rating_count;
 
     @NonNull
     public String getId() {
@@ -47,4 +48,13 @@ public class GameEntity {
     public void setRating(double rating) {
         this.rating = rating;
     }
+
+    public int getRating_count() {
+        return rating_count;
+    }
+
+    public void setRating_count(int rating_count) {
+        this.rating_count = rating_count;
+    }
+
 }

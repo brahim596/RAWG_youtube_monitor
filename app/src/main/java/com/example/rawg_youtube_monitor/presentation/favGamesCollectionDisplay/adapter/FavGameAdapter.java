@@ -1,4 +1,4 @@
-package com.example.rawg_youtube_monitor.presentation.favGamesVideoDisplay.adapter;
+package com.example.rawg_youtube_monitor.presentation.favGamesCollectionDisplay.adapter;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -7,14 +7,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rawg_youtube_monitor.R;
-import com.example.rawg_youtube_monitor.presentation.favGamesVideoDisplay.fragment.FavGamesViewContract;
+import com.example.rawg_youtube_monitor.presentation.favGamesCollectionDisplay.fragment.FavGamesViewContract;
 import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.adapter.GameItemViewModel;
-import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.adapter.GameViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FavGameAdapter extends RecyclerView.Adapter<GameViewHolder> {
+public class FavGameAdapter extends RecyclerView.Adapter<FavGameViewHolder> {
 
     List<GameItemViewModel> gameItemViewModels;
     FavGamesViewContract favGamesViewContract;
@@ -26,12 +25,12 @@ public class FavGameAdapter extends RecyclerView.Adapter<GameViewHolder> {
 
     @NonNull
     @Override
-    public GameViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public FavGameViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new FavGameViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.game_card, parent, false),favGamesViewContract);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull GameViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull FavGameViewHolder holder, int position) {
         holder.bindViewModel(this.gameItemViewModels.get(position));
     }
 

@@ -1,10 +1,10 @@
-package com.example.rawg_youtube_monitor.presentation.favGamesVideoDisplay.adapter;
+package com.example.rawg_youtube_monitor.presentation.favGamesCollectionDisplay.adapter;
 
 import android.view.View;
 import android.widget.ImageView;
 
 import com.example.rawg_youtube_monitor.R;
-import com.example.rawg_youtube_monitor.presentation.favGamesVideoDisplay.fragment.FavGamesViewContract;
+import com.example.rawg_youtube_monitor.presentation.favGamesCollectionDisplay.fragment.FavGamesViewContract;
 import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.adapter.GameViewHolder;
 
 public class FavGameViewHolder extends GameViewHolder {
@@ -16,6 +16,7 @@ public class FavGameViewHolder extends GameViewHolder {
         super(view);
         this.favGamesViewContract = favGamesViewContract;
         deletButton = view.findViewById(R.id.addButton);
+        deletButton.setImageResource(R.drawable.ic_baseline_delete_24);
     }
 
     private void addAddButtonListener(){
