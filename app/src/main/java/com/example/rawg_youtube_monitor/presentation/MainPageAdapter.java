@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.example.rawg_youtube_monitor.presentation.favGamesVideoDisplay.fragment.FavGamesVideoFragment;
+import com.example.rawg_youtube_monitor.presentation.favGamesVideoDisplay.fragment.YoutubeVideoFragment;
 import com.example.rawg_youtube_monitor.presentation.favGamesCollectionDisplay.fragment.FavGamesCollectionFragment;
 import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.fragment.SearchGamesFragment;
 
@@ -25,12 +25,12 @@ public class MainPageAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case 0:
-               return FavGamesVideoFragment.newInstance();
+               return YoutubeVideoFragment.newInstance();
             case 1:
                return FavGamesCollectionFragment.newInstance();
             case 2:
                return SearchGamesFragment.newInstance();
-            default: return FavGamesVideoFragment.newInstance();
+            default: return YoutubeVideoFragment.newInstance();
         }
 
     }
