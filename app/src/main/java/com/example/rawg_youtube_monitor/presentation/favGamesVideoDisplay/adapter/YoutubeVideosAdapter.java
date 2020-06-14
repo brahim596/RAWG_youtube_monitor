@@ -41,4 +41,9 @@ public class YoutubeVideosAdapter extends RecyclerView.Adapter<YoutubeVideoViewH
         this.youtubeVideoItemViewModelList.addAll(youtubeVideoItemViewModels);
         this.notifyDataSetChanged();
     }
+
+    public void addSingleViewModel(YoutubeVideoItemViewModel youtubeVideoItemViewModel){
+        this.youtubeVideoItemViewModelList.add(youtubeVideoItemViewModel);
+        this.notifyDataSetChanged();
+    }
 }

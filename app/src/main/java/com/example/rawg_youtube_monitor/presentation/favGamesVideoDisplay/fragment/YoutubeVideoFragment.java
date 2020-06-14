@@ -49,10 +49,11 @@ public class YoutubeVideoFragment extends Fragment implements YoutubeVideoGamesC
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        this.youtubeVideoGamesPresenter = new YoutubeVideoGamesPresenter(DependencyInjection.getGamesRepository());
+        this.youtubeVideoGamesPresenter = new YoutubeVideoGamesPresenter(DependencyInjection.getGamesRepository(),DependencyInjection.getYoutubeVideoRepository());
         this.youtubeVideoGamesPresenter.setYoutubeVideoGamesContract(this);
         setUpRecyclerView();
-        this.youtubeVideoGamesPresenter.getAllFavoriteGames();
+       // this.youtubeVideoGamesPresenter.getAllFavoriteGamesYoutubeVideo();
+        this.youtubeVideoGamesPresenter.getYoutubeVideoGamePage();
     }
 
     public void setUpRecyclerView(){
@@ -66,5 +67,10 @@ public class YoutubeVideoFragment extends Fragment implements YoutubeVideoGamesC
     @Override
     public void displayAllVideo(List<YoutubeVideoItemViewModel> youtubeVideoItemViewModels) {
         this.youtubeVideosAdapter.bindViewModels(youtubeVideoItemViewModels);
+    }
+
+    @Override
+    public void addYoutubeVideo(YoutubeVideoItemViewModel youtubeVideoItemViewModel) {
+        this.youtubeVideosAdapter.addSingleViewModel(youtubeVideoItemViewModel);
     }
 }

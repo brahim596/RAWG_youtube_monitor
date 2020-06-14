@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface YoutubeVideoGamesContract {
     void displayAllVideo(List<YoutubeVideoItemViewModel> youtubeVideoItemViewModels);
+
+    void addYoutubeVideo(YoutubeVideoItemViewModel youtubeVideoItemViewModel);
 }
