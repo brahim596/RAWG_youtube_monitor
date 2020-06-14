@@ -89,26 +89,27 @@ public class SearchGamesFragment extends Fragment implements SearchGamesViewCont
 
             @Override
             public void afterTextChanged(final Editable s) {
-
-                timer.cancel();
-                timer = new Timer();
-                timer.schedule(
-                        new TimerTask() {
-                            @Override
-                            public void run() {
-                                //Need UI thread to modify UI
-                                getActivity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        progressBar.setVisibility(View.VISIBLE);
-                                        searchGamesResultRecyclerView.setVisibility(View.GONE);
-                                    }
-                                });
-                                searchGamesPresenter.getGamesByName(s.toString());
-                            }
-                        },
-                        DELAY
-                );
+                if (!s.toString().equals("")) {
+                    timer.cancel();
+                    timer = new Timer();
+                    timer.schedule(
+                            new TimerTask() {
+                                @Override
+                                public void run() {
+                                    //Need UI thread to modify UI
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            progressBar.setVisibility(View.VISIBLE);
+                                            searchGamesResultRecyclerView.setVisibility(View.GONE);
+                                        }
+                                    });
+                                    searchGamesPresenter.getGamesByName(s.toString());
+                                }
+                            },
+                            DELAY
+                    );
+                }
 
             }
         });
@@ -130,14 +131,14 @@ public class SearchGamesFragment extends Fragment implements SearchGamesViewCont
                     int totalItemCount = linearLayoutManager.getItemCount();
                     int pastVisiblesItems = linearLayoutManager.findFirstVisibleItemPosition();
 
-                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
-                            progressBar.setVisibility(View.VISIBLE);
-                            searchGamesPresenter.loadNextPage();
-                        }
+                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                        progressBar.setVisibility(View.VISIBLE);
+                        searchGamesPresenter.loadNextPage();
                     }
                 }
-            });
-        }
+            }
+        });
+    }
 
 
     @Override
