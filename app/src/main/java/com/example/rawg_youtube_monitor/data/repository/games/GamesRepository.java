@@ -21,4 +21,6 @@ public interface GamesRepository {
     Flowable<List<Game>> getAllFavoriteGames();
 
     Completable addGameToFavoritesById(String id);
+
+    Completable removeGameFromFavoritesById(String id);
 }

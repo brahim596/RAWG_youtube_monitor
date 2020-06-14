@@ -8,8 +8,10 @@ import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.mapper.G
 
 import java.util.List;
 
+import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subscribers.ResourceSubscriber;
 
@@ -52,5 +54,22 @@ public class FavGamesPresenter {
                     }
                 })
         );
+    }
+
+    public void deleteGameById(String id){
+       compositeDisposable.add( this.gamesRepository.removeGameFromFavoritesById(id)
+               .subscribeOn(Schedulers.io())
+               .observeOn(AndroidSchedulers.mainThread())
+               .subscribeWith(new DisposableCompletableObserver() {
+                   @Override
+                   public void onComplete() {
+                        favGamesViewContract.notifyDeleteSuccess("Jeu supprimé des favories");
+                   }
+
+                   @Override
+                   public void onError(Throwable e) {
+                        favGamesViewContract.notifyDeleteError("Suppression impossible une erreur est survenue");
+                   }
+               }));
     }
 }

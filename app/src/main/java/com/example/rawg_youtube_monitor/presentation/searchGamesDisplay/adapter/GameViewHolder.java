@@ -32,6 +32,7 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
     List<Integer> iconsIdAdded;
 
 
+
     public GameViewHolder(View view) {
         super(view);
         this.view = view;
@@ -98,4 +99,7 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
         else gameRateScore.setTextColor(view.getResources().getColor(R.color.lowScore));
     }
 
+    public GameItemViewModel getGameItemViewModel() {
+        return gameItemViewModel;
+    }
 }

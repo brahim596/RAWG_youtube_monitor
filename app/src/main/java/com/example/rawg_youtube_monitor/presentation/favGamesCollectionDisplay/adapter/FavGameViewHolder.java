@@ -17,14 +17,14 @@ public class FavGameViewHolder extends GameViewHolder {
         this.favGamesViewContract = favGamesViewContract;
         deletButton = view.findViewById(R.id.addButton);
         deletButton.setImageResource(R.drawable.ic_baseline_delete_24);
+        addAddButtonListener();
     }
 
     private void addAddButtonListener(){
         deletButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //TO DO
+                favGamesViewContract.deleteGameById(getGameItemViewModel().getId());
             }
         });
     }

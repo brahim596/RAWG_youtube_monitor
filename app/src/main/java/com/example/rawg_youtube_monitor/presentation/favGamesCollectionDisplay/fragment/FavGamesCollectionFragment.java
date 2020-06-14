@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,7 +21,7 @@ import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.adapter.
 
 import java.util.List;
 
-public class FavGamesCollectionFragment extends Fragment implements FavGamesViewContract{
+public class FavGamesCollectionFragment extends Fragment implements FavGamesViewContract {
 
     private View view;
     private RecyclerView favGamesResultRecyclerView;
@@ -30,16 +31,17 @@ public class FavGamesCollectionFragment extends Fragment implements FavGamesView
     private FavGameAdapter favGameAdapter;
     private FavGamesPresenter favGamesPresenter;
 
-    public FavGamesCollectionFragment() {}
+    public FavGamesCollectionFragment() {
+    }
 
-    public static FavGamesCollectionFragment newInstance(){
+    public static FavGamesCollectionFragment newInstance() {
         return new FavGamesCollectionFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view =inflater.inflate(R.layout.fragment_fav_games_collection,container,false);
+        view = inflater.inflate(R.layout.fragment_fav_games_collection, container, false);
         return view;
     }
 
@@ -57,7 +59,22 @@ public class FavGamesCollectionFragment extends Fragment implements FavGamesView
         this.favGameAdapter.bindViewModels(gameItemViewModelList);
     }
 
-    private void setUpRecyclerView(){
+    @Override
+    public void deleteGameById(String id) {
+        this.favGamesPresenter.deleteGameById(id);
+    }
+
+    @Override
+    public void notifyDeleteSuccess(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void notifyDeleteError(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+    }
+
+    private void setUpRecyclerView() {
         this.favGameAdapter = new FavGameAdapter(this);
         this.favGamesResultRecyclerView = view.findViewById(R.id.favGamesRecyclerView);
         this.favGamesResultRecyclerView.setAdapter(favGameAdapter);
