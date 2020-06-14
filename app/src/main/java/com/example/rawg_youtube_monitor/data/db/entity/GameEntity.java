@@ -2,6 +2,7 @@ package com.example.rawg_youtube_monitor.data.db.entity;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -15,6 +16,9 @@ public class GameEntity {
     String name;
     double rating;
     int rating_count;
+
+    @Embedded
+    YoutubeVideoEntity youtubeVideoEntity;
 
     @NonNull
     public String getId() {
@@ -57,4 +61,11 @@ public class GameEntity {
         this.rating_count = rating_count;
     }
 
+    public YoutubeVideoEntity getYoutubeVideoEntity() {
+        return youtubeVideoEntity;
+    }
+
+    public void setYoutubeVideoEntity(YoutubeVideoEntity youtubeVideoEntity) {
+        this.youtubeVideoEntity = youtubeVideoEntity;
+    }
 }

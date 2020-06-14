@@ -1,11 +1,16 @@
 package com.example.rawg_youtube_monitor.data.repository.games;
 
 import com.example.rawg_youtube_monitor.data.db.entity.GameEntity;
+import com.example.rawg_youtube_monitor.data.db.entity.YoutubeVideoEntity;
 import com.example.rawg_youtube_monitor.data.model.Game;
 import com.example.rawg_youtube_monitor.data.model.SearchGamesResponse;
 import com.example.rawg_youtube_monitor.data.model.SingleGame;
+import com.example.rawg_youtube_monitor.data.model.YoutubeVideo;
+import com.example.rawg_youtube_monitor.data.model.YoutubeVideoGamesResponse;
 import com.example.rawg_youtube_monitor.data.repository.games.local.GamesLocalDataSource;
 import com.example.rawg_youtube_monitor.data.repository.games.remote.GamesRemoteDataSource;
+import com.example.rawg_youtube_monitor.data.repository.youtubeVideo.YoutubeVideoDataRepository;
+import com.example.rawg_youtube_monitor.data.repository.youtubeVideo.YoutubeVideoRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +31,13 @@ public class GamesDataRepository implements GamesRepository {
     private GamesRemoteDataSource gamesRemoteDataSource;
     private GamesLocalDataSource gamesLocalDataSource;
     private CompositeDisposable compositeDisposable;
+    private YoutubeVideoRepository youtubeVideoRepository;
 
-    public GamesDataRepository(GamesRemoteDataSource gamesRemoteDataSource, GamesLocalDataSource gamesLocalDataSource) {
+    public GamesDataRepository(GamesRemoteDataSource gamesRemoteDataSource, GamesLocalDataSource gamesLocalDataSource,YoutubeVideoRepository youtubeVideoRepository) {
         this.gamesRemoteDataSource = gamesRemoteDataSource;
         this.gamesLocalDataSource = gamesLocalDataSource;
         this.compositeDisposable = new CompositeDisposable();
+        this.youtubeVideoRepository = youtubeVideoRepository;
     }
 
     @Override
@@ -58,13 +65,20 @@ public class GamesDataRepository implements GamesRepository {
 
     }
 
-    public Completable addGameToFavoritesById(String id){
+    public Completable addGameToFavoritesById(final String id){
         return gamesRemoteDataSource.getGameById(id).flatMapCompletable(new Function<SingleGame, CompletableSource>() {
             @Override
-            public CompletableSource apply(SingleGame singleGame) throws Exception {
-                Game newGame = new Game();
-                newGame.copyGame(singleGame);
-               return gamesLocalDataSource.insertGameInFavorites(mapGameToGameEntity(newGame));
+            public CompletableSource apply(final SingleGame singleGame) throws Exception {
+
+                return youtubeVideoRepository.getVideoGamesById(id).flatMapCompletable(new Function<YoutubeVideoGamesResponse, CompletableSource>() {
+                    @Override
+                    public CompletableSource apply(YoutubeVideoGamesResponse youtubeVideoGamesResponse) throws Exception {
+                        Game newGame = new Game();
+                        newGame.copyGame(singleGame);
+                        return gamesLocalDataSource.insertGameInFavorites(mapGameToGameEntity(newGame,youtubeVideoGamesResponse));
+                    }
+                });
+
             }
         });
     }
@@ -81,7 +95,7 @@ public class GamesDataRepository implements GamesRepository {
     private List<GameEntity> mapListGameToListGameEntity(List<Game> games){
         List<GameEntity> gameEntities = new ArrayList<>();
         for(Game game:games)
-            gameEntities.add(mapGameToGameEntity(game));
+            gameEntities.add(mapGameToGameEntity(game,null));
 
         return gameEntities;
     }
@@ -94,13 +108,14 @@ public class GamesDataRepository implements GamesRepository {
         return games;
     }
 
-    private GameEntity mapGameToGameEntity(Game game){
+    private GameEntity mapGameToGameEntity(Game game,YoutubeVideoGamesResponse youtubeVideoGamesResponse){
         GameEntity gameEntity = new GameEntity();
         gameEntity.setId(game.getId());
         gameEntity.setBackground_image(game.getBackground_image());
         gameEntity.setName(game.getName());
         gameEntity.setRating(game.getRating());
         gameEntity.setRating_count(game.getRatings_count());
+        gameEntity.setYoutubeVideoEntity(mapYoutubeResponseToYoutubeVideoEntity(youtubeVideoGamesResponse));
         return gameEntity;
     }
 
@@ -112,6 +127,25 @@ public class GamesDataRepository implements GamesRepository {
         game.setRating(gameEntity.getRating());
         game.setRatings_count(gameEntity.getRating_count());
         return game;
+    }
+
+    private YoutubeVideoEntity mapYoutubeResponseToYoutubeVideoEntity(YoutubeVideoGamesResponse youtubeVideoGamesResponse){
+        YoutubeVideoEntity youtubeVideoEntity = new YoutubeVideoEntity();
+        YoutubeVideo youtubeVideo = youtubeVideoGamesResponse.getResults().get(0);
+
+        youtubeVideoEntity.setYoutube_id(youtubeVideo.getId()+"");
+        youtubeVideoEntity.setChannel_title(youtubeVideo.getChannel_title());
+        youtubeVideoEntity.setTitle(youtubeVideo.getName());
+        youtubeVideoEntity.setCreated(youtubeVideo.getCreated());
+        youtubeVideoEntity.setDescription(youtubeVideo.getDescription());
+        youtubeVideoEntity.setDislike_count(youtubeVideo.getDislike_count());
+        youtubeVideoEntity.setLike_count(youtubeVideo.getLike_count());
+        youtubeVideoEntity.setView_count(youtubeVideo.getView_count());
+
+        if(youtubeVideo.getThumbnails()!=null && youtubeVideo.getThumbnails().get("medium")!=null)
+            youtubeVideoEntity.setThumbnail(youtubeVideo.getThumbnails().get("medium").getUrl());
+
+        return youtubeVideoEntity;
     }
 
 }

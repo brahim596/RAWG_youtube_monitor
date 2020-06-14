@@ -41,7 +41,7 @@ public class DependencyInjection {
 
     public static GamesRepository getGamesRepository() {
         if (gamesRepository == null)
-            gamesRepository = new GamesDataRepository(new GamesRemoteDataSource(getSearchGamesDisplayService()),new GamesLocalDataSource(getGameDatabase()));
+            gamesRepository = new GamesDataRepository(new GamesRemoteDataSource(getSearchGamesDisplayService()),new GamesLocalDataSource(getGameDatabase()),getYoutubeVideoRepository());
         return gamesRepository;
     }
 
