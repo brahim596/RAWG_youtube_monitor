@@ -8,6 +8,7 @@ import java.util.List;
 public class YoutubeVideoItemViewModel {
 
     String youtube_id;
+    String external_id;
     String channel_title;
     String title;
     String description;
@@ -26,7 +27,7 @@ public class YoutubeVideoItemViewModel {
     List<YoutubeVideoItemViewModel> moreVideo;
 
 
-    public YoutubeVideoItemViewModel(String youtube_id, String channel_title, String title, String description, String created, int view_count, int like_count, int dislike_count, String thumbnail) {
+    public YoutubeVideoItemViewModel(String youtube_id, String channel_title, String title, String description, String created, int view_count, int like_count, int dislike_count, String thumbnail,String external_id) {
         this.youtube_id = youtube_id;
         this.channel_title = channel_title;
         this.title = title;
@@ -36,6 +37,7 @@ public class YoutubeVideoItemViewModel {
         this.like_count = like_count;
         this.dislike_count = dislike_count;
         this.thumbnail = thumbnail;
+        this.external_id = external_id;
         moreVideo = new ArrayList<>();
     }
 
@@ -134,5 +136,13 @@ public class YoutubeVideoItemViewModel {
 
     public void setChild(boolean child) {
         this.child = child;
+    }
+
+    public String getExternal_id() {
+        return external_id;
+    }
+
+    public void setExternal_id(String external_id) {
+        this.external_id = external_id;
     }
 }

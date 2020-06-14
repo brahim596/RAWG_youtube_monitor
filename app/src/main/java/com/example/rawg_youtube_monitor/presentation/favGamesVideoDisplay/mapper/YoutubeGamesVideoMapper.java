@@ -22,7 +22,7 @@ public class YoutubeGamesVideoMapper {
     }
 
     public YoutubeVideoItemViewModel mapYoutubeGameVideoEntityToYoutubeVideoItemViewModel(YoutubeVideoEntity yt) {
-        return new YoutubeVideoItemViewModel(yt.getYoutube_id(), yt.getChannel_title(), yt.getTitle(), yt.getDescription(), yt.getCreated(), yt.getView_count(), yt.getLike_count(), yt.getDislike_count(), yt.getThumbnail());
+        return new YoutubeVideoItemViewModel(yt.getYoutube_id(), yt.getChannel_title(), yt.getTitle(), yt.getDescription(), yt.getCreated(), yt.getView_count(), yt.getLike_count(), yt.getDislike_count(), yt.getThumbnail(),null);
     }
 
     public List<YoutubeVideoItemViewModel> mapYoutubeGameVideoListToYoutubeVideoItemViewModelList(List<YoutubeVideo> yts) {
@@ -34,7 +34,7 @@ public class YoutubeGamesVideoMapper {
     }
 
     public YoutubeVideoItemViewModel mapYoutubeGameVideoToYoutubeVideoItemViewModel(YoutubeVideo yt) {
-        return new YoutubeVideoItemViewModel(yt.getId()+"", yt.getChannel_title(), yt.getName(), yt.getDescription(), yt.getCreated(), yt.getView_count(), yt.getLike_count(), yt.getDislike_count(), yt.getThumbnails().get("medium").getUrl());
+        return new YoutubeVideoItemViewModel(yt.getId()+"", yt.getChannel_title(), yt.getName(), yt.getDescription(), yt.getCreated(), yt.getView_count(), yt.getLike_count(), yt.getDislike_count(), yt.getThumbnails().get("medium").getUrl(),yt.getExternal_id());
     }
 
     public YoutubeVideoItemViewModel mapYoutubeGameVideoResponseToYoutubeVideoItemViewModel(YoutubeVideoGamesResponse ytrs) {

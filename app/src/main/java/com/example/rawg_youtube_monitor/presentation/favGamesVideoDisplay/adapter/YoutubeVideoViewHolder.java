@@ -1,5 +1,8 @@
 package com.example.rawg_youtube_monitor.presentation.favGamesVideoDisplay.adapter;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -38,6 +41,7 @@ public class YoutubeVideoViewHolder extends RecyclerView.ViewHolder {
         this.thumbnail = view.findViewById(R.id.thumbnail);
         this.moreVideo = view.findViewById(R.id.moreVideo);
         this.flagChild = view.findViewById(R.id.flagColor);
+        this.playButton = view.findViewById(R.id.playButton);
     }
 
     public void bindViewModel(YoutubeVideoItemViewModel youtubeVideoItemViewModel){
@@ -88,7 +92,19 @@ public class YoutubeVideoViewHolder extends RecyclerView.ViewHolder {
         /**
          * click on button 'play'
          */
-
+        this.playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + youtubeVideoItemViewModel.getExternal_id()));
+                Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("http://www.youtube.com/watch?v=" +youtubeVideoItemViewModel.getExternal_id()));
+                try {
+                    view.getContext().startActivity(appIntent);
+                } catch (ActivityNotFoundException ex) {
+                    view.getContext().startActivity(webIntent);
+                }
+            }
+        });
     }
 
     /**
