@@ -9,6 +9,7 @@ public class GameItemViewModel {
     String gameImageUrl;
     int ratings_count;
     List<String> platforms;
+    boolean moreDetailsOpen = false;
 
     public GameItemViewModel(String id, String gameTitle, String gameRate, String gameImageUrl,List<String> platforms,int ratings_count) {
         this.id = id;
@@ -65,5 +66,13 @@ public class GameItemViewModel {
 
     public void setPlatforms(List<String> platforms) {
         this.platforms = platforms;
+    }
+
+    public boolean isMoreDetailsOpen() {
+        return moreDetailsOpen;
+    }
+
+    public void setMoreDetailsOpen(boolean moreDetailsOpen) {
+        this.moreDetailsOpen = moreDetailsOpen;
     }
 }

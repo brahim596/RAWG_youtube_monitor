@@ -1,10 +1,14 @@
 package com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.adapter;
 
+import android.os.Build;
+import android.transition.AutoTransition;
+import android.transition.TransitionManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -18,11 +22,14 @@ import java.util.Map;
 
 public class GameViewHolder extends RecyclerView.ViewHolder {
 
+    LinearLayout mainLayoutGameCard;
+    LinearLayout detailsLayout;
     View view;
     TextView gameTitle;
     TextView gameRate;
     TextView gameRateScore;
     TextView ratingCounts;
+    TextView moreDetails;
     ImageView gameImage;
 
     GameItemViewModel gameItemViewModel;
@@ -31,6 +38,7 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
     Map<String, Integer> iconsAvailble;
     List<Integer> iconsIdAdded;
 
+     float scale;
 
 
     public GameViewHolder(View view) {
@@ -42,7 +50,14 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
         gameImage = view.findViewById(R.id.gameImage);
         ratingCounts = view.findViewById(R.id.ratingCount);
         iconPlatformLayout = view.findViewById(R.id.platforms_icon_layout);
+        moreDetails = view.findViewById(R.id.moreDetails);
+        mainLayoutGameCard = view.findViewById(R.id.mainLayoutGameCard);
+        detailsLayout = view.findViewById(R.id.detailsLayout);
         initIconsAvaible();
+        setUpListeners();
+
+        //For using dp unit programatically
+        scale=view.getContext().getResources().getDisplayMetrics().density;
     }
 
     public void bindViewModel(GameItemViewModel gameItemViewModel) {
@@ -101,5 +116,26 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
 
     public GameItemViewModel getGameItemViewModel() {
         return gameItemViewModel;
+    }
+
+    private void setUpListeners(){
+        moreDetails.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public void onClick(View v) {
+                TransitionManager.beginDelayedTransition(mainLayoutGameCard,new AutoTransition());
+
+                if(gameItemViewModel.isMoreDetailsOpen()){
+                    detailsLayout.setVisibility(View.GONE);
+                    mainLayoutGameCard.getLayoutParams().height= (int) (400 * scale + 0.5f);
+                    gameItemViewModel.setMoreDetailsOpen(false);
+                }else{
+                    detailsLayout.setVisibility(View.VISIBLE);
+                    mainLayoutGameCard.getLayoutParams().height=(int) (600 * scale + 0.5f);;
+                    gameItemViewModel.setMoreDetailsOpen(true);
+                }
+                mainLayoutGameCard.requestLayout();
+            }
+        });
     }
 }

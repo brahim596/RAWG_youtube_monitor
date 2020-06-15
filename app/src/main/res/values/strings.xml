@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RAWG_Youtube_Monitor</string>
+    <string name="more_details"><u>Voir plus</u></string>
 </resources>
