@@ -22,12 +22,19 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * This class is used to
+ * give the same instance (singloton) of service (repositories...)
+ * for every class which need it
+ */
 public class DependencyInjection {
 
     private static Context context;
     private static String url_api = "https://api.rawg.io/api";
 
+    //Use for remote call
     private static Retrofit retrofit;
+    //Use for mapping response
     private static Gson gson;
 
     private static GamesRepository gamesRepository;

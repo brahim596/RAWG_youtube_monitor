@@ -47,6 +47,9 @@ public class YoutubeVideoGamesPresenter {
         this.youtubeVideoGamesContract = youtubeVideoGamesContract;
     }
 
+    /**
+     * old method which save youtube video in local DB when the game is added to it
+     */
     public void getAllFavoriteGamesYoutubeVideo() {
         compositeDisposable.add(gamesRepository.getAllFavoriteGamesYoutubeVideo()
                 .subscribeOn(Schedulers.io())
@@ -101,6 +104,9 @@ public class YoutubeVideoGamesPresenter {
      * Load primary youtube video of favorite games list
      * Load just a sublist of favorite games for performance
      * calculate like (index from : page * pageSize , index to : (page+1) * pageSize
+     * So display one youtube video by favorite game, when the user touch 'see more'
+     * more videos of the game will be load
+     * handle pagination
      */
     public void getYoutubeVideoGamePage() {
         if (!(page * size_page > favoriteGames.size()) && favoriteGames.size() != 0) {

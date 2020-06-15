@@ -1,6 +1,5 @@
 package com.example.rawg_youtube_monitor.data.repository.games.remote;
 
-import com.example.rawg_youtube_monitor.data.model.Game;
 import com.example.rawg_youtube_monitor.data.model.SearchGamesResponse;
 import com.example.rawg_youtube_monitor.data.model.SingleGame;
 import com.example.rawg_youtube_monitor.data.service.SearchGamesDisplayService;

@@ -120,6 +120,9 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
         iconsIdAdded.add(id);
     }
 
+    /**
+     * init icon information avaible in the app
+     */
     private void initIconsAvaible() {
         iconsIdAdded = new ArrayList<>();
         iconsAvailble = new HashMap<>();
@@ -131,6 +134,12 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
         iconsAvailble.put("xbox", R.drawable.ic_xbox);
     }
 
+    /**
+     * take account the score for
+     * the text color
+     * high = green
+     * low = red
+     */
     private void setUpGameScoreColor() {
         if (gameItemViewModel.getRatings_count() == 0)
             gameRateScore.setTextColor(view.getResources().getColor(R.color.colorAccent));
@@ -146,6 +155,10 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void setUpListeners() {
+
+        /**
+         * collapse the game card when touch on 'mmore details'
+         */
         moreDetails.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
@@ -166,6 +179,9 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
             }
         });
 
+        /**
+         * start mini clip video if avaible
+         */
         playVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -2,8 +2,6 @@ package com.example.rawg_youtube_monitor.presentation.searchGamesDisplay;
 
 import android.widget.Toast;
 
-import com.example.rawg_youtube_monitor.data.model.Game;
-import com.example.rawg_youtube_monitor.data.model.Platform;
 import com.example.rawg_youtube_monitor.data.model.SearchGamesResponse;
 import com.example.rawg_youtube_monitor.data.repository.games.GamesRepository;
 import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.adapter.GameItemViewModel;
@@ -11,12 +9,9 @@ import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.mapper.G
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import io.reactivex.CompletableObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -28,8 +23,12 @@ public class SearchGamesPresenter {
     List<GameItemViewModel> gameItemViewModelList;
     SearchGamesViewContract searchGamesViewContract;
     GamesMapper gamesMapper;
+
+    //the current page of search result
     int page;
+    // total items avaible in the API
     int totalCountItem;
+    // user serching field
     String searchField;
 
     public void setSearchGamesViewContract(SearchGamesViewContract searchGamesViewContract) {
@@ -44,7 +43,12 @@ public class SearchGamesPresenter {
         this.gameItemViewModelList = new ArrayList<>();
     }
 
+    /**
+     * Get the first page of search result
+     * @param searchField
+     */
     public void getGamesByName(String searchField) {
+
         if (searchField != this.searchField) {
             this.searchField = searchField;
             this.page = 1;
@@ -71,8 +75,12 @@ public class SearchGamesPresenter {
                         ));
     }
 
+    /**
+     * When the user scroll at the end of recyclerview
+     * this method is called to load the next page of results
+     */
     public void loadNextPage() {
-        //check if we already have alll results
+        //check if we already have all results
         if (page * 20 < totalCountItem) {
             this.page++;
             this.compositeDisposable.add(
@@ -98,6 +106,11 @@ public class SearchGamesPresenter {
         }
     }
 
+    /**
+     * Add game by id in the favorite games user list
+     * in local DB
+     * @param id
+     */
     public void addGameToFavorite(String id) {
        compositeDisposable.add( gamesRepository.addGameToFavoritesById(id)
                 .subscribeOn(Schedulers.io())

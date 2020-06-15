@@ -3,16 +3,11 @@ package com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.fragmen
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -88,6 +83,11 @@ public class SearchGamesFragment extends Fragment implements SearchGamesViewCont
 
             }
 
+            /**
+             * After user input wait 'DELAY' before doing the
+             * call to the remote source
+             * @param s
+             */
             @Override
             public void afterTextChanged(final Editable s) {
                 if (!s.toString().equals("")) {
@@ -124,6 +124,10 @@ public class SearchGamesFragment extends Fragment implements SearchGamesViewCont
         this.searchGamesResultRecyclerView.setAdapter(searchGameAdapter);
         linearLayoutManager = new LinearLayoutManager(view.getContext());
         this.searchGamesResultRecyclerView.setLayoutManager(linearLayoutManager);
+
+        /**
+         * listen if the user is at the bottom of the recyclerview
+         */
         this.searchGamesResultRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

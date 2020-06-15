@@ -24,7 +24,7 @@ public class GamesMapper {
         GameItemViewModel gameItemViewModel = new GameItemViewModel(game.getId(), game.getName(), "" + game.getRating(), game.getBackground_image(), extractPlatformsNameFromGame(game), game.getRatings_count(),game.getClip(),game.getReleased());
 
         /**
-         * If the game is coming from the api directely or fro mapping a game entity it will
+         * If the game is coming from the api directely or from a game entity mapped it will
          * be structured differentely
          */
         if ((gameItemViewModel.getPlatforms() == null || gameItemViewModel.getPlatforms().isEmpty()) && game.getPlatforms_label() != null)
