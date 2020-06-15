@@ -18,6 +18,7 @@ import com.example.rawg_youtube_monitor.R;
 import com.example.rawg_youtube_monitor.presentation.favGamesCollectionDisplay.FavGamesPresenter;
 import com.example.rawg_youtube_monitor.presentation.favGamesCollectionDisplay.adapter.FavGameAdapter;
 import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.adapter.GameItemViewModel;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -66,12 +67,12 @@ public class FavGamesCollectionFragment extends Fragment implements FavGamesView
 
     @Override
     public void notifyDeleteSuccess(String message) {
-        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+        Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
     public void notifyDeleteError(String message) {
-        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+        Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
     }
 
     private void setUpRecyclerView() {

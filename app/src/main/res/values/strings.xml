@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">RAWG Youtube Monitor</string>
     <string name="more_details"><u>Voir plus</u></string>
+    <string name="success_add_to_bdd_message">Jeu ajouté à vos favoris</string>
+    <string-array name="orders">
+        <item>Note</item>
+        <item>Nom</item>
+        <item>Date de sortie</item>
+    </string-array>
 </resources>

@@ -26,6 +26,7 @@ import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.SearchGa
 import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.SearchGamesViewContract;
 import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.adapter.GameItemViewModel;
 import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.adapter.SearchGameAdapter;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 import java.util.Timer;
@@ -161,13 +162,11 @@ public class SearchGamesFragment extends Fragment implements SearchGamesViewCont
 
     @Override
     public void notifyGameAddedToFavorite(String message) {
-        Toast toast = Toast.makeText(getContext(), message, Toast.LENGTH_SHORT);
-        toast.show();
+        Snackbar.make(view,message,Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
     public void notifyErrorServeur(String message) {
-        Toast toast = Toast.makeText(getContext(), message, Toast.LENGTH_SHORT);
-        toast.show();
+        Snackbar.make(view,message,Snackbar.LENGTH_SHORT).show();
     }
 }
