@@ -60,7 +60,7 @@ public class SearchGamesPresenter {
                                                totalCountItem = searchGamesResponse.getCount();
                                                gameItemViewModelList.clear();
                                                gameItemViewModelList.addAll(gamesMapper.mapGamesToGamesItemsViewModel(searchGamesResponse.getResults()));
-                                               searchGamesViewContract.displayGames(gameItemViewModelList);
+                                               searchGamesViewContract.displayGames(gameItemViewModelList,true);
                                            }
 
                                            @Override
@@ -84,7 +84,7 @@ public class SearchGamesPresenter {
                                                @Override
                                                public void onSuccess(SearchGamesResponse searchGamesResponse) {
                                                    gameItemViewModelList.addAll(gamesMapper.mapGamesToGamesItemsViewModel(searchGamesResponse.getResults()));
-                                                   searchGamesViewContract.displayGames(gameItemViewModelList);
+                                                   searchGamesViewContract.displayGames(gameItemViewModelList,false);
                                                }
 
                                                @Override

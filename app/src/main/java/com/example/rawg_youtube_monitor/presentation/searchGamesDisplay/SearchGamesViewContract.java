@@ -5,7 +5,7 @@ import com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.adapter.
 import java.util.List;
 
 public interface SearchGamesViewContract {
-    void displayGames(List<GameItemViewModel> gameItemViewModelList);
+    void displayGames(List<GameItemViewModel> gameItemViewModelList,boolean newSearch);
 
     void stopLoadingSpiner();
 

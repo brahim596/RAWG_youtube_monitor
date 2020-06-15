@@ -142,10 +142,11 @@ public class SearchGamesFragment extends Fragment implements SearchGamesViewCont
 
 
     @Override
-    public void displayGames(List<GameItemViewModel> gameItemViewModelList) {
+    public void displayGames(List<GameItemViewModel> gameItemViewModelList,boolean newSearch) {
         this.searchGameAdapter.bindViewModels(gameItemViewModelList);
         progressBar.setVisibility(View.GONE);
         searchGamesResultRecyclerView.setVisibility(View.VISIBLE);
+        if(newSearch)searchGamesResultRecyclerView.smoothScrollToPosition(0);
     }
 
     @Override
