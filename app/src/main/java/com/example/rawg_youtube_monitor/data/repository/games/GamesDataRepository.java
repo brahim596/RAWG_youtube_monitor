@@ -3,6 +3,7 @@ package com.example.rawg_youtube_monitor.data.repository.games;
 import com.example.rawg_youtube_monitor.data.db.entity.GameEntity;
 import com.example.rawg_youtube_monitor.data.db.entity.YoutubeVideoEntity;
 import com.example.rawg_youtube_monitor.data.model.Game;
+import com.example.rawg_youtube_monitor.data.model.Platform;
 import com.example.rawg_youtube_monitor.data.model.SearchGamesResponse;
 import com.example.rawg_youtube_monitor.data.model.SingleGame;
 import com.example.rawg_youtube_monitor.data.model.YoutubeVideo;
@@ -14,6 +15,7 @@ import com.example.rawg_youtube_monitor.data.repository.youtubeVideo.YoutubeVide
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Completable;
 import io.reactivex.CompletableSource;
@@ -33,7 +35,7 @@ public class GamesDataRepository implements GamesRepository {
     private CompositeDisposable compositeDisposable;
     private YoutubeVideoRepository youtubeVideoRepository;
 
-    public GamesDataRepository(GamesRemoteDataSource gamesRemoteDataSource, GamesLocalDataSource gamesLocalDataSource,YoutubeVideoRepository youtubeVideoRepository) {
+    public GamesDataRepository(GamesRemoteDataSource gamesRemoteDataSource, GamesLocalDataSource gamesLocalDataSource, YoutubeVideoRepository youtubeVideoRepository) {
         this.gamesRemoteDataSource = gamesRemoteDataSource;
         this.gamesLocalDataSource = gamesLocalDataSource;
         this.compositeDisposable = new CompositeDisposable();
@@ -56,7 +58,7 @@ public class GamesDataRepository implements GamesRepository {
             @Override
             public List<Game> apply(List<GameEntity> gameEntities) throws Exception {
                 List<Game> games = new ArrayList<>();
-                for(GameEntity ge:gameEntities)
+                for (GameEntity ge : gameEntities)
                     games.add(mapGameEntityToGame(ge));
                 return games;
             }
@@ -65,26 +67,31 @@ public class GamesDataRepository implements GamesRepository {
     }
 
 
-
-    public Completable addGameToFavoritesById(final String id){
+    public Completable addGameToFavoritesById(final String id) {
         return gamesRemoteDataSource.getGameById(id).flatMapCompletable(new Function<SingleGame, CompletableSource>() {
             @Override
             public CompletableSource apply(final SingleGame singleGame) throws Exception {
 
-                return youtubeVideoRepository.getVideoGamesById(id).flatMapCompletable(new Function<YoutubeVideoGamesResponse, CompletableSource>() {
+                /**
+                 * old method which save youtube video to local DB
+                 */
+               /* return youtubeVideoRepository.getVideoGamesById(id).flatMapCompletable(new Function<YoutubeVideoGamesResponse, CompletableSource>() {
                     @Override
                     public CompletableSource apply(YoutubeVideoGamesResponse youtubeVideoGamesResponse) throws Exception {
                         Game newGame = new Game();
                         newGame.copyGame(singleGame);
-                        return gamesLocalDataSource.insertGameInFavorites(mapGameToGameEntity(newGame,youtubeVideoGamesResponse));
+                        return gamesLocalDataSource.insertGameInFavorites(mapGameToGameEntity(newGame, youtubeVideoGamesResponse));
                     }
-                });
+                });*/
 
+                Game newGame = new Game();
+                newGame.copyGame(singleGame);
+                return gamesLocalDataSource.insertGameInFavorites(mapGameToGameEntity(newGame, null));
             }
         });
     }
 
-    public Completable removeGameFromFavoritesById(String id){
+    public Completable removeGameFromFavoritesById(String id) {
         return this.gamesLocalDataSource.deleteGameById(id);
     }
 
@@ -93,7 +100,7 @@ public class GamesDataRepository implements GamesRepository {
             @Override
             public List<YoutubeVideoEntity> apply(List<GameEntity> gameEntities) throws Exception {
                 List<YoutubeVideoEntity> youtubeVideoEntities = new ArrayList<>();
-                for(GameEntity ge:gameEntities)
+                for (GameEntity ge : gameEntities)
                     youtubeVideoEntities.add(ge.getYoutubeVideoEntity());
                 return youtubeVideoEntities;
             }
@@ -102,52 +109,56 @@ public class GamesDataRepository implements GamesRepository {
     }
 
 
-
     /************* Methods for mapping  (game entity) <---> (game) **************/
 
 
-    private List<GameEntity> mapListGameToListGameEntity(List<Game> games){
+    private List<GameEntity> mapListGameToListGameEntity(List<Game> games) {
         List<GameEntity> gameEntities = new ArrayList<>();
-        for(Game game:games)
-            gameEntities.add(mapGameToGameEntity(game,null));
+        for (Game game : games)
+            gameEntities.add(mapGameToGameEntity(game, null));
 
         return gameEntities;
     }
 
-    private List<Game> mapListGameEntityToListGame(List<GameEntity> gameEntities){
+    private List<Game> mapListGameEntityToListGame(List<GameEntity> gameEntities) {
         List<Game> games = new ArrayList<>();
-        for(GameEntity gameEntity:gameEntities)
+        for (GameEntity gameEntity : gameEntities)
             games.add(mapGameEntityToGame(gameEntity));
 
         return games;
     }
 
-    private GameEntity mapGameToGameEntity(Game game,YoutubeVideoGamesResponse youtubeVideoGamesResponse){
+    private GameEntity mapGameToGameEntity(Game game, YoutubeVideoGamesResponse youtubeVideoGamesResponse) {
         GameEntity gameEntity = new GameEntity();
         gameEntity.setId(game.getId());
         gameEntity.setBackground_image(game.getBackground_image());
         gameEntity.setName(game.getName());
         gameEntity.setRating(game.getRating());
         gameEntity.setRating_count(game.getRatings_count());
-        gameEntity.setYoutubeVideoEntity(mapYoutubeResponseToYoutubeVideoEntity(youtubeVideoGamesResponse));
+
+        if (youtubeVideoGamesResponse != null)
+            gameEntity.setYoutubeVideoEntity(mapYoutubeResponseToYoutubeVideoEntity(youtubeVideoGamesResponse));
+
+        gameEntity.getPlatforms().addAll(extractPlatformsNameFromGame(game));
         return gameEntity;
     }
 
-    private Game mapGameEntityToGame(GameEntity gameEntity){
+    private Game mapGameEntityToGame(GameEntity gameEntity) {
         Game game = new Game();
         game.setId(gameEntity.getId());
         game.setBackground_image(gameEntity.getBackground_image());
         game.setName(gameEntity.getName());
         game.setRating(gameEntity.getRating());
         game.setRatings_count(gameEntity.getRating_count());
+        game.getPlatforms_label().addAll(gameEntity.getPlatforms());
         return game;
     }
 
-    private YoutubeVideoEntity mapYoutubeResponseToYoutubeVideoEntity(YoutubeVideoGamesResponse youtubeVideoGamesResponse){
+    private YoutubeVideoEntity mapYoutubeResponseToYoutubeVideoEntity(YoutubeVideoGamesResponse youtubeVideoGamesResponse) {
         YoutubeVideoEntity youtubeVideoEntity = new YoutubeVideoEntity();
         YoutubeVideo youtubeVideo = youtubeVideoGamesResponse.getResults().get(0);
 
-        youtubeVideoEntity.setYoutube_id(youtubeVideo.getId()+"");
+        youtubeVideoEntity.setYoutube_id(youtubeVideo.getId() + "");
         youtubeVideoEntity.setChannel_title(youtubeVideo.getChannel_title());
         youtubeVideoEntity.setTitle(youtubeVideo.getName());
         youtubeVideoEntity.setCreated(youtubeVideo.getCreated());
@@ -156,10 +167,21 @@ public class GamesDataRepository implements GamesRepository {
         youtubeVideoEntity.setLike_count(youtubeVideo.getLike_count());
         youtubeVideoEntity.setView_count(youtubeVideo.getView_count());
 
-        if(youtubeVideo.getThumbnails()!=null && youtubeVideo.getThumbnails().get("medium")!=null)
+        if (youtubeVideo.getThumbnails() != null && youtubeVideo.getThumbnails().get("medium") != null)
             youtubeVideoEntity.setThumbnail(youtubeVideo.getThumbnails().get("medium").getUrl());
 
         return youtubeVideoEntity;
+    }
+
+
+    private List<String> extractPlatformsNameFromGame(Game game) {
+        List<String> platforms = new ArrayList<>();
+
+        if (game.getPlatforms() != null)
+            for (Map<String, Platform> map : game.getPlatforms())
+                if (map.containsKey("platform")) platforms.add(map.get("platform").getSlug());
+
+        return platforms;
     }
 
 }

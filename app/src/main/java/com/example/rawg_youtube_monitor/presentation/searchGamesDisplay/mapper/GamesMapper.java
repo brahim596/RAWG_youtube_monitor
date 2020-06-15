@@ -20,7 +20,12 @@ public class GamesMapper {
     }
 
     public GameItemViewModel mapGameToGameItemViewModel(Game game) {
-        return new GameItemViewModel(game.getId(), game.getName(), "" + game.getRating(), game.getBackground_image(), extractPlatformsNameFromGame(game), game.getRatings_count());
+        GameItemViewModel gameItemViewModel = new GameItemViewModel(game.getId(), game.getName(), "" + game.getRating(), game.getBackground_image(), extractPlatformsNameFromGame(game), game.getRatings_count());
+
+        if ((gameItemViewModel.getPlatforms() == null || gameItemViewModel.getPlatforms().isEmpty()) && game.getPlatforms_label() != null)
+            gameItemViewModel.getPlatforms().addAll(game.getPlatforms_label());
+
+        return gameItemViewModel;
     }
 
     public List<String> extractPlatformsNameFromGame(Game game) {

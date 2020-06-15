@@ -160,13 +160,13 @@ public class SearchGamesFragment extends Fragment implements SearchGamesViewCont
 
     @Override
     public void notifyGameAddedToFavorite(String message) {
-        Toast toast = Toast.makeText(getContext(), message, Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(getContext(), message, Toast.LENGTH_SHORT);
         toast.show();
     }
 
     @Override
     public void notifyErrorServeur(String message) {
-        Toast toast = Toast.makeText(getContext(), message, Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(getContext(), message, Toast.LENGTH_SHORT);
         toast.show();
     }
 }

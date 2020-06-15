@@ -15,9 +15,16 @@ public class Game {
     int rating_top;
     int ratings_count;
     private List<Map<String,Platform>> platforms;
+    private List<String> platforms_label;
+
+    public Game() {
+        platforms = new ArrayList<>();
+        platforms_label = new ArrayList<>();
+    }
 
     public void copyGame(SingleGame singleGame) {
         platforms = new ArrayList<>();
+        platforms_label = new ArrayList<>();
         id = singleGame.getId();
         slug = singleGame.getSlug();
         name = singleGame.getName();
@@ -108,5 +115,13 @@ public class Game {
 
     public void setPlatforms(List<Map<String, Platform>> platforms) {
         this.platforms = platforms;
+    }
+
+    public List<String> getPlatforms_label() {
+        return platforms_label;
+    }
+
+    public void setPlatforms_label(List<String> platforms_label) {
+        this.platforms_label = platforms_label;
     }
 }

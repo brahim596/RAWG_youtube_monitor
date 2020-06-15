@@ -5,6 +5,10 @@ import androidx.room.ColumnInfo;
 import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class GameEntity {
@@ -16,6 +20,7 @@ public class GameEntity {
     String name;
     double rating;
     int rating_count;
+    List<String> platforms = new ArrayList<>();
 
     @Embedded
     YoutubeVideoEntity youtubeVideoEntity;
@@ -68,4 +73,13 @@ public class GameEntity {
     public void setYoutubeVideoEntity(YoutubeVideoEntity youtubeVideoEntity) {
         this.youtubeVideoEntity = youtubeVideoEntity;
     }
+
+    public List<String> getPlatforms() {
+        return platforms;
+    }
+
+    public void setPlatforms(List<String> platforms) {
+        this.platforms = platforms;
+    }
+
 }
