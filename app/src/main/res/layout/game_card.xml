@@ -28,13 +28,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="7">
 
-
-                <VideoView
-                    android:id="@+id/videoView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                 />
-
                 <ImageView
                     android:id="@+id/gameImage"
                     android:layout_width="match_parent"
@@ -42,6 +35,23 @@
                     android:contentDescription="TODO"
                     android:scaleType="centerCrop"
                     tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+                <VideoView
+                    android:id="@+id/videoView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="invisible"
+                    />
+
+                <ImageView
+                    android:id="@+id/playVideo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_margin="15dp"
+                    android:background="@drawable/bg_button_play"
+                    android:padding="30dp"
+                    card_view:srcCompat="@android:drawable/ic_media_play" />
             </FrameLayout>
 
             <LinearLayout
@@ -179,8 +189,8 @@
                     android:background="@drawable/bottom_border_line"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginLeft="30dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -210,8 +220,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginLeft="30dp"
                     android:background="@drawable/bottom_border_line"
                     android:orientation="horizontal">
 

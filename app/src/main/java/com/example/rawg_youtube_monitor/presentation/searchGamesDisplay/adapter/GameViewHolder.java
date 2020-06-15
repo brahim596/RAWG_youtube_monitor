@@ -1,12 +1,18 @@
 package com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.adapter;
 
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.VideoView;
 
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,6 +39,8 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
     TextView releaseDate;
     TextView genres;
     ImageView gameImage;
+    ImageView playVideo;
+    VideoView videoView;
 
     GameItemViewModel gameItemViewModel;
     LinearLayout iconPlatformLayout;
@@ -57,6 +65,8 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
         detailsLayout = view.findViewById(R.id.detailsLayout);
         releaseDate = view.findViewById(R.id.releaseDate);
         genres = view.findViewById(R.id.genreList);
+        videoView = view.findViewById(R.id.videoView);
+        playVideo = view.findViewById(R.id.playVideo);
         initIconsAvaible();
         setUpListeners();
 
@@ -80,6 +90,10 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
 
         if (gameItemViewModel.getReleaseDate() != null && !gameItemViewModel.getReleaseDate().equals(""))
             releaseDate.setText(gameItemViewModel.getReleaseDate());
+
+        if (gameItemViewModel.getClip() == null || gameItemViewModel.getClip().getClip() == null || gameItemViewModel.getClip().getClip().equals(""))
+            playVideo.setVisibility(View.GONE);
+        else playVideo.setVisibility(View.VISIBLE);
 
         setUpGameScoreColor();
         Glide.with(view).load(this.gameItemViewModel.gameImageUrl).fitCenter().transition(DrawableTransitionOptions.withCrossFade(100)).into(this.gameImage);
@@ -151,5 +165,51 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
                 mainLayoutGameCard.requestLayout();
             }
         });
+
+        playVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (!gameItemViewModel.isPlayVideoClicked()) {
+                  start_video(v);
+                }else{
+                    stop_video(v);
+                }
+            }
+        });
+    }
+
+    private void start_video(final View v){
+        gameItemViewModel.setPlayVideoClicked(true);
+        playVideo.setImageDrawable(v.getResources().getDrawable(R.drawable.ic_baseline_crop_square_24));
+        try {
+            Log.i("[VIDEO]", "Video URL: " + gameItemViewModel.getClip().getClip());
+            gameImage.setVisibility(View.INVISIBLE);
+            videoView.setVisibility(View.VISIBLE);
+            Uri uri = Uri.parse(gameItemViewModel.getClip().getClip());
+            videoView.setVideoURI(uri);
+            videoView.requestFocus();
+            videoView.start();
+            videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    stop_video(v);
+                }
+            });
+
+        } catch (Exception e) {
+            Log.e("[VIDEO]", "Error Play URL Video: " + e.getMessage());
+            Toast.makeText(v.getContext(), "Error Play URL Video: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+    private void stop_video(View v){
+        videoView.seekTo(0);
+        videoView.pause();
+        gameImage.setVisibility(View.VISIBLE);
+        videoView.setVisibility(View.INVISIBLE);
+        gameItemViewModel.setPlayVideoClicked(false);
+        playVideo.setImageDrawable(v.getResources().getDrawable(R.drawable.ic_baseline_play_arrow_24));
     }
 }

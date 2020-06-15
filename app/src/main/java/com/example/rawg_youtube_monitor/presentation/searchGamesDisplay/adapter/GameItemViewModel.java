@@ -14,6 +14,7 @@ public class GameItemViewModel {
     int ratings_count;
     List<String> platforms;
     boolean moreDetailsOpen = false;
+    boolean playVideoClicked = false;
     private String genres;
     private Clip clip;
     private String releaseDate;
@@ -107,5 +108,13 @@ public class GameItemViewModel {
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    public boolean isPlayVideoClicked() {
+        return playVideoClicked;
+    }
+
+    public void setPlayVideoClicked(boolean playVideoClicked) {
+        this.playVideoClicked = playVideoClicked;
     }
 }
