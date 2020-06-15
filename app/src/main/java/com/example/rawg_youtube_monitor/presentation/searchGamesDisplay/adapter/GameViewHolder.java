@@ -30,6 +30,8 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
     TextView gameRateScore;
     TextView ratingCounts;
     TextView moreDetails;
+    TextView releaseDate;
+    TextView genres;
     ImageView gameImage;
 
     GameItemViewModel gameItemViewModel;
@@ -38,7 +40,7 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
     Map<String, Integer> iconsAvailble;
     List<Integer> iconsIdAdded;
 
-     float scale;
+    float scale;
 
 
     public GameViewHolder(View view) {
@@ -53,11 +55,13 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
         moreDetails = view.findViewById(R.id.moreDetails);
         mainLayoutGameCard = view.findViewById(R.id.mainLayoutGameCard);
         detailsLayout = view.findViewById(R.id.detailsLayout);
+        releaseDate = view.findViewById(R.id.releaseDate);
+        genres = view.findViewById(R.id.genreList);
         initIconsAvaible();
         setUpListeners();
 
         //For using dp unit programatically
-        scale=view.getContext().getResources().getDisplayMetrics().density;
+        scale = view.getContext().getResources().getDisplayMetrics().density;
     }
 
     public void bindViewModel(GameItemViewModel gameItemViewModel) {
@@ -69,8 +73,14 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
             ratingCounts.setText("( 0 avis )");
         } else {
             gameRateScore.setText((int) (Double.parseDouble(gameItemViewModel.getGameRate()) * 20) + "");
-            ratingCounts.setText("( "+gameItemViewModel.getRatings_count()+" avis )");
+            ratingCounts.setText("( " + gameItemViewModel.getRatings_count() + " avis )");
         }
+        if (gameItemViewModel.getGenres() != null && !gameItemViewModel.getGenres().equals(""))
+            genres.setText(gameItemViewModel.getGenres());
+
+        if (gameItemViewModel.getReleaseDate() != null && !gameItemViewModel.getReleaseDate().equals(""))
+            releaseDate.setText(gameItemViewModel.getReleaseDate());
+
         setUpGameScoreColor();
         Glide.with(view).load(this.gameItemViewModel.gameImageUrl).fitCenter().transition(DrawableTransitionOptions.withCrossFade(100)).into(this.gameImage);
         bindPlatformIcons();
@@ -79,7 +89,7 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
     private void bindPlatformIcons() {
         for (String iconKey : iconsAvailble.keySet())
             for (String platform : gameItemViewModel.platforms) {
-                if (platform.matches("(.*)" + iconKey + "(.*)") && (!iconsIdAdded.contains(iconsAvailble.get(iconKey)) )) {
+                if (platform.matches("(.*)" + iconKey + "(.*)") && (!iconsIdAdded.contains(iconsAvailble.get(iconKey)))) {
                     addIcon(iconsAvailble.get(iconKey));
                     break;
                 }
@@ -107,10 +117,13 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
         iconsAvailble.put("xbox", R.drawable.ic_xbox);
     }
 
-    private void setUpGameScoreColor(){
-        if(gameItemViewModel.getRatings_count()==0)gameRateScore.setTextColor(view.getResources().getColor(R.color.colorAccent));
-        else if(Double.parseDouble(gameItemViewModel.gameRate)*20 > 72)gameRateScore.setTextColor(view.getResources().getColor(R.color.highScore));
-        else if(Double.parseDouble(gameItemViewModel.gameRate)*20 > 50)gameRateScore.setTextColor(view.getResources().getColor(R.color.mediumScore));
+    private void setUpGameScoreColor() {
+        if (gameItemViewModel.getRatings_count() == 0)
+            gameRateScore.setTextColor(view.getResources().getColor(R.color.colorAccent));
+        else if (Double.parseDouble(gameItemViewModel.gameRate) * 20 > 72)
+            gameRateScore.setTextColor(view.getResources().getColor(R.color.highScore));
+        else if (Double.parseDouble(gameItemViewModel.gameRate) * 20 > 50)
+            gameRateScore.setTextColor(view.getResources().getColor(R.color.mediumScore));
         else gameRateScore.setTextColor(view.getResources().getColor(R.color.lowScore));
     }
 
@@ -118,20 +131,21 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
         return gameItemViewModel;
     }
 
-    private void setUpListeners(){
+    private void setUpListeners() {
         moreDetails.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
-                TransitionManager.beginDelayedTransition(mainLayoutGameCard,new AutoTransition());
+                TransitionManager.beginDelayedTransition(mainLayoutGameCard, new AutoTransition());
 
-                if(gameItemViewModel.isMoreDetailsOpen()){
+                if (gameItemViewModel.isMoreDetailsOpen()) {
                     detailsLayout.setVisibility(View.GONE);
-                    mainLayoutGameCard.getLayoutParams().height= (int) (400 * scale + 0.5f);
+                    mainLayoutGameCard.getLayoutParams().height = (int) (400 * scale + 0.5f);
                     gameItemViewModel.setMoreDetailsOpen(false);
-                }else{
+                } else {
                     detailsLayout.setVisibility(View.VISIBLE);
-                    mainLayoutGameCard.getLayoutParams().height=(int) (600 * scale + 0.5f);;
+                    mainLayoutGameCard.getLayoutParams().height = (int) (600 * scale + 0.5f);
+                    ;
                     gameItemViewModel.setMoreDetailsOpen(true);
                 }
                 mainLayoutGameCard.requestLayout();

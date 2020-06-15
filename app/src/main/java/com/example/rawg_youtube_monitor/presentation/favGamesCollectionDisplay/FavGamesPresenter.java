@@ -45,7 +45,7 @@ public class FavGamesPresenter {
 
                     @Override
                     public void onError(Throwable t) {
-
+                        System.out.println("JUST TO PUT BREAK POINT");
                     }
 
                     @Override

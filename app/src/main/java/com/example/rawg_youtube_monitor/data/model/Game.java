@@ -16,10 +16,16 @@ public class Game {
     int ratings_count;
     private List<Map<String,Platform>> platforms;
     private List<String> platforms_label;
+    private List<Genre> genres;
+    private Clip clip;
+
+    private String displayGenres;
+
 
     public Game() {
         platforms = new ArrayList<>();
         platforms_label = new ArrayList<>();
+        genres = new ArrayList<>();
     }
 
     public void copyGame(SingleGame singleGame) {
@@ -123,5 +129,29 @@ public class Game {
 
     public void setPlatforms_label(List<String> platforms_label) {
         this.platforms_label = platforms_label;
+    }
+
+    public List<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
+    }
+
+    public Clip getClip() {
+        return clip;
+    }
+
+    public void setClip(Clip clip) {
+        this.clip = clip;
+    }
+
+    public String getDisplayGenres() {
+        return displayGenres;
+    }
+
+    public void setDisplayGenres(String displayGenres) {
+        this.displayGenres = displayGenres;
     }
 }

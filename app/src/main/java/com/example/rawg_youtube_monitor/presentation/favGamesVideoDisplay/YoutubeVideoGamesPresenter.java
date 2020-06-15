@@ -6,6 +6,7 @@ import com.example.rawg_youtube_monitor.data.model.YoutubeVideo;
 import com.example.rawg_youtube_monitor.data.model.YoutubeVideoGamesResponse;
 import com.example.rawg_youtube_monitor.data.repository.games.GamesRepository;
 import com.example.rawg_youtube_monitor.data.repository.youtubeVideo.YoutubeVideoRepository;
+import com.example.rawg_youtube_monitor.exceptions.YoutubeVideoNotFoundException;
 import com.example.rawg_youtube_monitor.presentation.favGamesVideoDisplay.adapter.YoutubeVideoItemViewModel;
 import com.example.rawg_youtube_monitor.presentation.favGamesVideoDisplay.mapper.YoutubeGamesVideoMapper;
 
@@ -110,17 +111,21 @@ public class YoutubeVideoGamesPresenter {
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribeWith(new DisposableSingleObserver<YoutubeVideoGamesResponse>() {
-                                @Override
-                                public void onSuccess(YoutubeVideoGamesResponse youtubeVideoGamesResponse) {
-                                    youtubeVideoGamesContract.addYoutubeVideo(youtubeGamesVideoMapper.mapYoutubeGameVideoResponseToYoutubeVideoItemViewModel(youtubeVideoGamesResponse));
-                                }
+                                               @Override
+                                               public void onSuccess(YoutubeVideoGamesResponse youtubeVideoGamesResponse) {
+                                                   try {
+                                                       youtubeVideoGamesContract.addYoutubeVideo(youtubeGamesVideoMapper.mapYoutubeGameVideoResponseToYoutubeVideoItemViewModel(youtubeVideoGamesResponse));
+                                                   }catch (YoutubeVideoNotFoundException ynfe){
 
-                                @Override
-                                public void onError(Throwable e) {
+                                                   }
+                                               }
 
-                                }
-                            }
-                    ));
+                                               @Override
+                                               public void onError(Throwable e) {
+
+                                               }
+                                           }
+                            ));
                 }
             }
             page++;

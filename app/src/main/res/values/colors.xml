@@ -8,4 +8,5 @@
     <color name="lowScore">#B32121</color>
     <color name="mainYoutubeVideoCardFlag">#B32121</color>
     <color name="childYoutubeVideoCardFlag">#616161</color>
+    <color name="textMuted">#616161</color>
 </resources>

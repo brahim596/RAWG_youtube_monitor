@@ -2,7 +2,9 @@ package com.example.rawg_youtube_monitor.data.repository.games;
 
 import com.example.rawg_youtube_monitor.data.db.entity.GameEntity;
 import com.example.rawg_youtube_monitor.data.db.entity.YoutubeVideoEntity;
+import com.example.rawg_youtube_monitor.data.model.Clip;
 import com.example.rawg_youtube_monitor.data.model.Game;
+import com.example.rawg_youtube_monitor.data.model.Genre;
 import com.example.rawg_youtube_monitor.data.model.Platform;
 import com.example.rawg_youtube_monitor.data.model.SearchGamesResponse;
 import com.example.rawg_youtube_monitor.data.model.SingleGame;
@@ -136,6 +138,11 @@ public class GamesDataRepository implements GamesRepository {
         gameEntity.setRating(game.getRating());
         gameEntity.setRating_count(game.getRatings_count());
 
+        gameEntity.setGenres(extractGenresFormListToString(game.getGenres()));
+        if(game.getClip()!=null)
+            gameEntity.setClip(game.getClip().getClip());
+        gameEntity.setReleaseDate(game.getReleased());
+
         if (youtubeVideoGamesResponse != null)
             gameEntity.setYoutubeVideoEntity(mapYoutubeResponseToYoutubeVideoEntity(youtubeVideoGamesResponse));
 
@@ -151,6 +158,9 @@ public class GamesDataRepository implements GamesRepository {
         game.setRating(gameEntity.getRating());
         game.setRatings_count(gameEntity.getRating_count());
         game.getPlatforms_label().addAll(gameEntity.getPlatforms());
+        game.setDisplayGenres(gameEntity.getGenres());
+        game.setClip(new Clip(gameEntity.getClip()));
+        game.setReleased(gameEntity.getReleaseDate());
         return game;
     }
 
@@ -182,6 +192,13 @@ public class GamesDataRepository implements GamesRepository {
                 if (map.containsKey("platform")) platforms.add(map.get("platform").getSlug());
 
         return platforms;
+    }
+
+    private String extractGenresFormListToString(List<Genre> genres){
+        String s = "";
+        for (Genre genre: genres)
+            s+=genre.getSlug()+", ";
+        return s;
     }
 
 }

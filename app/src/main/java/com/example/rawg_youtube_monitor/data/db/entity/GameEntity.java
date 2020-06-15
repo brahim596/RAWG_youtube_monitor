@@ -7,6 +7,9 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+import com.example.rawg_youtube_monitor.data.model.Clip;
+import com.example.rawg_youtube_monitor.data.model.Genre;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +24,9 @@ public class GameEntity {
     double rating;
     int rating_count;
     List<String> platforms = new ArrayList<>();
+    private String genres;
+    private String clip;
+    private String releaseDate;
 
     @Embedded
     YoutubeVideoEntity youtubeVideoEntity;
@@ -82,4 +88,27 @@ public class GameEntity {
         this.platforms = platforms;
     }
 
+    public String getGenres() {
+        return genres;
+    }
+
+    public void setGenres(String genres) {
+        this.genres = genres;
+    }
+
+    public String getClip() {
+        return clip;
+    }
+
+    public void setClip(String clip) {
+        this.clip = clip;
+    }
+
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
 }
