@@ -23,7 +23,7 @@ public class YoutubeVideosAdapter extends RecyclerView.Adapter<YoutubeVideoViewH
      * This map is use to save main youtube video id
      * with his childs video when they are displayed
      */
-    private Map<String,List<YoutubeVideoItemViewModel>> saveMainYoutubeIdWithChildsVideoMap;
+    private Map<String, List<YoutubeVideoItemViewModel>> saveMainYoutubeIdWithChildsVideoMap;
 
     public YoutubeVideosAdapter() {
         this.youtubeVideoItemViewModelList = new ArrayList<>();
@@ -58,27 +58,31 @@ public class YoutubeVideosAdapter extends RecyclerView.Adapter<YoutubeVideoViewH
                 break;
             }
         int position = this.youtubeVideoItemViewModelList.indexOf(yt);
-        this.youtubeVideoItemViewModelList.addAll(position+1,yt.getMoreVideo());
+        this.youtubeVideoItemViewModelList.addAll(position + 1, yt.getMoreVideo());
         List<YoutubeVideoItemViewModel> copyList = new ArrayList<>();
         copyList.addAll(yt.getMoreVideo());
-        this.saveMainYoutubeIdWithChildsVideoMap.put(yt.getYoutube_id(),copyList);
+        this.saveMainYoutubeIdWithChildsVideoMap.put(yt.getYoutube_id(), copyList);
         yt.setMorevideoClicked(true);
         this.notifyDataSetChanged();
     }
 
-    public void reduceMoreVideo(String id){
+    public void reduceMoreVideo(String id) {
         this.youtubeVideoItemViewModelList.removeAll(this.saveMainYoutubeIdWithChildsVideoMap.get(id));
         this.saveMainYoutubeIdWithChildsVideoMap.remove(id);
         this.notifyDataSetChanged();
     }
 
     public void bindViewModels(List<YoutubeVideoItemViewModel> youtubeVideoItemViewModels) {
+        if (youtubeVideoItemViewModels.size() == 0)
+            this.youtubeVideoGamesContract.noYoutubeVideosInFavoriteMessage();
+        else this.youtubeVideoGamesContract.disablenoYoutubeVideosInFavoriteMessage();
         this.youtubeVideoItemViewModelList.clear();
         this.youtubeVideoItemViewModelList.addAll(youtubeVideoItemViewModels);
         this.notifyDataSetChanged();
     }
 
     public void addSingleViewModel(YoutubeVideoItemViewModel youtubeVideoItemViewModel) {
+        this.youtubeVideoGamesContract.disablenoYoutubeVideosInFavoriteMessage();
         this.youtubeVideoItemViewModelList.add(youtubeVideoItemViewModel);
         this.notifyDataSetChanged();
     }

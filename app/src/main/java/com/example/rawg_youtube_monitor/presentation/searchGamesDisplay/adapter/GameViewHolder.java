@@ -1,5 +1,6 @@
 package com.example.rawg_youtube_monitor.presentation.searchGamesDisplay.adapter;
 
+import android.graphics.Paint;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -168,11 +169,14 @@ public class GameViewHolder extends RecyclerView.ViewHolder {
                 if (gameItemViewModel.isMoreDetailsOpen()) {
                     detailsLayout.setVisibility(View.GONE);
                     mainLayoutGameCard.getLayoutParams().height = (int) (400 * scale + 0.5f);
+                    moreDetails.setText("Voir plus");
+                    moreDetails.setPaintFlags(moreDetails.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
                     gameItemViewModel.setMoreDetailsOpen(false);
                 } else {
                     detailsLayout.setVisibility(View.VISIBLE);
                     mainLayoutGameCard.getLayoutParams().height = (int) (600 * scale + 0.5f);
-                    ;
+                    moreDetails.setText("Réduire");
+                    moreDetails.setPaintFlags(moreDetails.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
                     gameItemViewModel.setMoreDetailsOpen(true);
                 }
                 mainLayoutGameCard.requestLayout();

@@ -7,14 +7,11 @@ import com.example.rawg_youtube_monitor.data.model.YoutubeVideoGamesResponse;
 import com.example.rawg_youtube_monitor.data.repository.games.GamesRepository;
 import com.example.rawg_youtube_monitor.data.repository.youtubeVideo.YoutubeVideoRepository;
 import com.example.rawg_youtube_monitor.exceptions.YoutubeVideoNotFoundException;
-import com.example.rawg_youtube_monitor.presentation.favGamesVideoDisplay.adapter.YoutubeVideoItemViewModel;
 import com.example.rawg_youtube_monitor.presentation.favGamesVideoDisplay.mapper.YoutubeGamesVideoMapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Completable;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
@@ -74,7 +71,8 @@ public class YoutubeVideoGamesPresenter {
     }
 
     /**
-     * Get all favorite games from local DB
+     * Get all favorite games from local DB and store them in a list
+     * get youtube from the remote source for a page of game
      */
     public void getAllFavoriteGames() {
         compositeDisposable.add(gamesRepository.getAllFavoriteGames()

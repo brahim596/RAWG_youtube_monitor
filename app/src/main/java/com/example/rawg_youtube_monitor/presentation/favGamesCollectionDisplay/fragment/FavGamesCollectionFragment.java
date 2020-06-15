@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,6 +29,7 @@ public class FavGamesCollectionFragment extends Fragment implements FavGamesView
     private RecyclerView favGamesResultRecyclerView;
     private ProgressBar progressBar;
     private LinearLayoutManager linearLayoutManager;
+    private TextView noGamesMessageTextView;
 
     private FavGameAdapter favGameAdapter;
     private FavGamesPresenter favGamesPresenter;
@@ -43,6 +45,7 @@ public class FavGamesCollectionFragment extends Fragment implements FavGamesView
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_fav_games_collection, container, false);
+        noGamesMessageTextView = view.findViewById(R.id.noFavoriteGamesTextView);
         return view;
     }
 
@@ -73,6 +76,16 @@ public class FavGamesCollectionFragment extends Fragment implements FavGamesView
     @Override
     public void notifyDeleteError(String message) {
         Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void noGamesInFavoriteMessage() {
+        this.noGamesMessageTextView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void disableNoGamesInFavoriteMessage() {
+        this.noGamesMessageTextView.setVisibility(View.INVISIBLE);
     }
 
     private void setUpRecyclerView() {

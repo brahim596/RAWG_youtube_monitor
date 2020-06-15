@@ -12,4 +12,8 @@ public interface FavGamesViewContract {
     void notifyDeleteSuccess(String message);
 
     void notifyDeleteError(String message);
+
+    void noGamesInFavoriteMessage();
+
+    void disableNoGamesInFavoriteMessage();
 }

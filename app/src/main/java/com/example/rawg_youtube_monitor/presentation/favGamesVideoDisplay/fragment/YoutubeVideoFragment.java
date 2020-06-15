@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +26,7 @@ public class YoutubeVideoFragment extends Fragment implements YoutubeVideoGamesC
     private View view;
     private RecyclerView youtubeVideoRecyclerView;
     private LinearLayoutManager linearLayoutManager;
+    private TextView noYoutubeVideoGamesTextView;
 
     private YoutubeVideosAdapter youtubeVideosAdapter;
     private YoutubeVideoGamesPresenter youtubeVideoGamesPresenter;
@@ -43,6 +45,7 @@ public class YoutubeVideoFragment extends Fragment implements YoutubeVideoGamesC
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         view =inflater.inflate(R.layout.fragment_fav_games_video,container,false);
+        noYoutubeVideoGamesTextView = view.findViewById(R.id.noYoutubeVideoGamesTextView);
         return view;
     }
 
@@ -56,6 +59,7 @@ public class YoutubeVideoFragment extends Fragment implements YoutubeVideoGamesC
         this.youtubeVideoGamesPresenter.getYoutubeVideoGamePage();
     }
 
+
     public void setUpRecyclerView(){
         this.youtubeVideosAdapter=new YoutubeVideosAdapter();
         this.youtubeVideosAdapter.setYoutubeVideoGamesContract(this);
@@ -64,6 +68,13 @@ public class YoutubeVideoFragment extends Fragment implements YoutubeVideoGamesC
         linearLayoutManager = new LinearLayoutManager(view.getContext());
         this.youtubeVideoRecyclerView.setLayoutManager(linearLayoutManager);
         this.youtubeVideoRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            /**
+             * Listen if the user arrived at the bottom of
+             * the list view then load new youtube video if possible
+             * @param recyclerView
+             * @param dx
+             * @param dy
+             */
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 if (dy > 0) { //check for scroll down
@@ -100,5 +111,16 @@ public class YoutubeVideoFragment extends Fragment implements YoutubeVideoGamesC
     public void reduceMoreVideo(String id) {
         this.youtubeVideosAdapter.reduceMoreVideo(id);
         this.youtubeVideoRecyclerView.scheduleLayoutAnimation();
+    }
+
+    @Override
+    public void noYoutubeVideosInFavoriteMessage() {
+        this.noYoutubeVideoGamesTextView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void disablenoYoutubeVideosInFavoriteMessage() {
+        this.noYoutubeVideoGamesTextView.setVisibility(View.INVISIBLE);
+
     }
 }

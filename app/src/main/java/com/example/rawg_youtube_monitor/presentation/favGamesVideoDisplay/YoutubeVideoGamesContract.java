@@ -12,4 +12,8 @@ public interface YoutubeVideoGamesContract {
     void viewMoreVideo(String id);
 
     void reduceMoreVideo(String id);
+
+    void noYoutubeVideosInFavoriteMessage();
+
+    void disablenoYoutubeVideosInFavoriteMessage();
 }
