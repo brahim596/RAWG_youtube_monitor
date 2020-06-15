@@ -137,10 +137,10 @@ public class GamesDataRepository implements GamesRepository {
         gameEntity.setName(game.getName());
         gameEntity.setRating(game.getRating());
         gameEntity.setRating_count(game.getRatings_count());
+        if (game.getClip() != null && game.getClip().getClip() != null && !game.getClip().getClip().equals(""))
+            gameEntity.setClip(game.getClip().getClip());
 
         gameEntity.setGenres(extractGenresFormListToString(game.getGenres()));
-        if(game.getClip()!=null)
-            gameEntity.setClip(game.getClip().getClip());
         gameEntity.setReleaseDate(game.getReleased());
 
         if (youtubeVideoGamesResponse != null)
@@ -194,10 +194,10 @@ public class GamesDataRepository implements GamesRepository {
         return platforms;
     }
 
-    private String extractGenresFormListToString(List<Genre> genres){
+    private String extractGenresFormListToString(List<Genre> genres) {
         String s = "";
-        for (Genre genre: genres)
-            s+=genre.getSlug()+", ";
+        for (Genre genre : genres)
+            s += genre.getSlug() + ", ";
         return s;
     }
 

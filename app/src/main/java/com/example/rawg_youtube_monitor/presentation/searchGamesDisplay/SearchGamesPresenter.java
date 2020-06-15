@@ -123,7 +123,7 @@ public class SearchGamesPresenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        searchGamesViewContract.notifyErrorServeur("Serveur indisponible");
+                        searchGamesViewContract.notifyErrorServeur("Vous avez déjà ajouté ce jeu");
                     }
                 }));
     }

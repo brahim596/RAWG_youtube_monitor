@@ -14,7 +14,7 @@ public class Game {
     double rating;
     int rating_top;
     int ratings_count;
-    private List<Map<String,Platform>> platforms;
+    private List<Map<String, Platform>> platforms;
     private List<String> platforms_label;
     private List<Genre> genres;
     private Clip clip;
@@ -40,6 +40,9 @@ public class Game {
         rating = singleGame.getRating();
         rating_top = singleGame.getRating_top();
         ratings_count = singleGame.getRatings_count();
+        if (singleGame.getClip() != null && singleGame.getClip().getClip() != null && !singleGame.getClip().getClip().equals(""))
+            clip = new Clip(singleGame.getClip().getClip());
+        genres.addAll(singleGame.getGenres());
         platforms.addAll(singleGame.getPlatforms());
     }
 

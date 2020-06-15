@@ -227,8 +227,8 @@
 
                     <TextView
                         android:id="@+id/textView8"
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_weight="1"
                         android:textColor="@color/textMuted"
                         android:padding="10dp"
@@ -237,13 +237,14 @@
 
                     <TextView
                         android:id="@+id/genreList"
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_weight="1"
                         android:padding="10dp"
                         android:layout_marginRight="10dp"
                         android:textColor="@color/colorAccent"
                         android:gravity="right"
+                        android:maxLines="2"
                         android:text="Shooter - Aventure - Suspense" />
                 </LinearLayout>
             </LinearLayout>

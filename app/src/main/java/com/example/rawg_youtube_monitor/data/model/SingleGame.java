@@ -13,6 +13,8 @@ public class SingleGame {
      double rating;
      int rating_top;
      int ratings_count;
+     private List<Genre> genres;
+     private Clip clip;
      List<Map<String,Platform>> parent_platforms;
 
      public String getId() {
@@ -93,5 +95,21 @@ public class SingleGame {
 
      public void setPlatforms(List<Map<String, Platform>> platforms) {
           this.parent_platforms = platforms;
+     }
+
+     public List<Genre> getGenres() {
+          return genres;
+     }
+
+     public void setGenres(List<Genre> genres) {
+          this.genres = genres;
+     }
+
+     public Clip getClip() {
+          return clip;
+     }
+
+     public void setClip(Clip clip) {
+          this.clip = clip;
      }
 }
