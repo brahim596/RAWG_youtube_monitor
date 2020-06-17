@@ -2,7 +2,6 @@ package com.example.rawg_youtube_monitor.presentation.favGamesVideoDisplay;
 
 import com.example.rawg_youtube_monitor.data.db.entity.YoutubeVideoEntity;
 import com.example.rawg_youtube_monitor.data.model.Game;
-import com.example.rawg_youtube_monitor.data.model.YoutubeVideo;
 import com.example.rawg_youtube_monitor.data.model.YoutubeVideoGamesResponse;
 import com.example.rawg_youtube_monitor.data.repository.games.GamesRepository;
 import com.example.rawg_youtube_monitor.data.repository.youtubeVideo.YoutubeVideoRepository;

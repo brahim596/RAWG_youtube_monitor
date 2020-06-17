@@ -31,9 +31,6 @@ public class YoutubeVideoFragment extends Fragment implements YoutubeVideoGamesC
     private YoutubeVideosAdapter youtubeVideosAdapter;
     private YoutubeVideoGamesPresenter youtubeVideoGamesPresenter;
 
-
-
-
     public YoutubeVideoFragment() {}
 
     public static YoutubeVideoFragment newInstance(){
@@ -67,6 +64,8 @@ public class YoutubeVideoFragment extends Fragment implements YoutubeVideoGamesC
         this.youtubeVideoRecyclerView.setAdapter(youtubeVideosAdapter);
         linearLayoutManager = new LinearLayoutManager(view.getContext());
         this.youtubeVideoRecyclerView.setLayoutManager(linearLayoutManager);
+
+
         this.youtubeVideoRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             /**
              * Listen if the user arrived at the bottom of
@@ -82,6 +81,7 @@ public class YoutubeVideoFragment extends Fragment implements YoutubeVideoGamesC
                     int totalItemCount = linearLayoutManager.getItemCount();
                     int pastVisiblesItems = linearLayoutManager.findFirstVisibleItemPosition();
 
+                    //Check if the user scroll to the botton of the recyclerview
                     if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                         youtubeVideoGamesPresenter.getYoutubeVideoGamePage();
                     }
