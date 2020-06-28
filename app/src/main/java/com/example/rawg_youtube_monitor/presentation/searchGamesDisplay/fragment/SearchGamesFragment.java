@@ -164,13 +164,33 @@ public class SearchGamesFragment extends Fragment implements SearchGamesViewCont
         this.searchGamesPresenter.addGameToFavorite(id);
     }
 
+    /**
+     * Here we have two methods with the same body. I did that
+     * It may happen in the future to do something different for each
+     * method in addition of the current body
+     * @param message
+     */
     @Override
     public void notifyGameAddedToFavorite(String message) {
-        Snackbar.make(view,message,Snackbar.LENGTH_SHORT).show();
+        final Snackbar snackbar = Snackbar.make(view,message,Snackbar.LENGTH_SHORT);
+        snackbar.setAction("OK", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackbar.dismiss();
+            }
+        });
+        snackbar.show();
     }
 
     @Override
     public void notifyErrorServeur(String message) {
-        Snackbar.make(view,message,Snackbar.LENGTH_SHORT).show();
+        final Snackbar snackbar = Snackbar.make(view,message,Snackbar.LENGTH_SHORT);
+        snackbar.setAction("OK", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackbar.dismiss();
+            }
+        });
+        snackbar.show();
     }
 }

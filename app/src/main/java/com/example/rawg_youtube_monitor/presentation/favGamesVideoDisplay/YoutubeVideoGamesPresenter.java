@@ -28,13 +28,15 @@ public class YoutubeVideoGamesPresenter {
     private List<Game> favoriteGames;
     private int size_page = 10;
     private int page = 0;
+    private boolean youtubeVideoGameAvaible = false;
 
 
-    public YoutubeVideoGamesPresenter(GamesRepository gamesRepository, YoutubeVideoRepository youtubeVideoRepository) {
+    public YoutubeVideoGamesPresenter(GamesRepository gamesRepository, YoutubeVideoRepository youtubeVideoRepository, YoutubeVideoGamesContract youtubeVideoGamesContract) {
         this.gamesRepository = gamesRepository;
         youtubeGamesVideoMapper = new YoutubeGamesVideoMapper();
         this.compositeDisposable = new CompositeDisposable();
         this.youtubeVideoRepository = youtubeVideoRepository;
+        this.youtubeVideoGamesContract = youtubeVideoGamesContract;
         this.favoriteGames = new ArrayList<>();
         getAllFavoriteGames();
     }
@@ -82,6 +84,8 @@ public class YoutubeVideoGamesPresenter {
                     public void onNext(List<Game> games) {
                         favoriteGames.addAll(games);
                         getYoutubeVideoGamePage();
+                        if(favoriteGames.size()==0)
+                            youtubeVideoGamesContract.noYoutubeVideosInFavoriteMessage();
                     }
 
                     @Override
@@ -95,6 +99,7 @@ public class YoutubeVideoGamesPresenter {
                     }
                 })
         );
+
     }
 
     /**
@@ -117,8 +122,10 @@ public class YoutubeVideoGamesPresenter {
                                                @Override
                                                public void onSuccess(YoutubeVideoGamesResponse youtubeVideoGamesResponse) {
                                                    try {
+                                                       if (youtubeVideoGamesResponse.getResults().size() > 0)
+                                                           youtubeVideoGameAvaible = true;
                                                        youtubeVideoGamesContract.addYoutubeVideo(youtubeGamesVideoMapper.mapYoutubeGameVideoResponseToYoutubeVideoItemViewModel(youtubeVideoGamesResponse));
-                                                   }catch (YoutubeVideoNotFoundException ynfe){
+                                                   } catch (YoutubeVideoNotFoundException ynfe) {
 
                                                    }
                                                }
@@ -131,7 +138,8 @@ public class YoutubeVideoGamesPresenter {
                             ));
                 }
             }
-            page++;
+            page++;  
+
         }
     }
 }

@@ -70,12 +70,26 @@ public class FavGamesCollectionFragment extends Fragment implements FavGamesView
 
     @Override
     public void notifyDeleteSuccess(String message) {
-        Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
+        final Snackbar snackbar = Snackbar.make(view,message,Snackbar.LENGTH_SHORT);
+        snackbar.setAction("OK", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackbar.dismiss();
+            }
+        });
+        snackbar.show();
     }
 
     @Override
     public void notifyDeleteError(String message) {
-        Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
+        final Snackbar snackbar = Snackbar.make(view,message,Snackbar.LENGTH_SHORT);
+        snackbar.setAction("OK", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackbar.dismiss();
+            }
+        });
+        snackbar.show();
     }
 
     @Override

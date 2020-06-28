@@ -25,6 +25,7 @@
             android:textStyle="bold"
             android:textColor="@color/colorAccent"
             android:padding="30dp"
+            android:visibility="gone"
             android:text="Vous avez aucune vidéo dans votre collection !" />
 
     </FrameLayout>

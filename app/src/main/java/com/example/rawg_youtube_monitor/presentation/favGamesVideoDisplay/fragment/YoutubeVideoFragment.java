@@ -49,11 +49,10 @@ public class YoutubeVideoFragment extends Fragment implements YoutubeVideoGamesC
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        this.youtubeVideoGamesPresenter = new YoutubeVideoGamesPresenter(DependencyInjection.getGamesRepository(),DependencyInjection.getYoutubeVideoRepository());
+        this.youtubeVideoGamesPresenter = new YoutubeVideoGamesPresenter(DependencyInjection.getGamesRepository(),DependencyInjection.getYoutubeVideoRepository(),this);
         this.youtubeVideoGamesPresenter.setYoutubeVideoGamesContract(this);
         setUpRecyclerView();
        // this.youtubeVideoGamesPresenter.getAllFavoriteGamesYoutubeVideo();
-        this.youtubeVideoGamesPresenter.getYoutubeVideoGamePage();
     }
 
 
